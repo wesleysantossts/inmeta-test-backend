@@ -8,8 +8,10 @@
     "dev": "nodemon",
     "build": "tsc --build",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:watch": "jest --watch --verbose=false",
+    "test:coverage": "jest --coverage",
+    "test:silent": "jest --silent",
+    "test:clean": "jest --verbose=false --silent=false --onlyFailures"
   },
   "repository": {
     "type": "git",

@@ -29,5 +29,5 @@ module.exports = {
     '^@middlewares/(.*)$': '<rootDir>/src/presentation/middlewares/$1',
     '^@routes/(.*)$': '<rootDir>/src/presentation/routes/$1'
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
