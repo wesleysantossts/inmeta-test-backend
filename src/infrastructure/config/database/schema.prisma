@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  email     String
+  password  String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  createdBy String?  @db.Uuid
+  updatedBy String?  @db.Uuid
+
+  @@map("users")
+}
+
+model Employee {
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String
+  document  String?
+  hiredAt   String?
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime   @updatedAt @db.Timestamptz(3)
+  createdBy String?    @db.Uuid
+  updatedBy String?    @db.Uuid
+  documents Document[]
+
+  @@index([hiredAt], name: "idx_employee_hired")
+  @@index([createdAt], name: "idx_employee_created")
+  @@map("employees")
+}
+
+model DocumentType {
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime   @updatedAt @db.Timestamptz(3)
+  createdBy String?    @db.Uuid
+  updatedBy String?    @db.Uuid
+  documents Document[]
+
+  @@index([name])
+  @@index([createdAt])
+  @@map("document_types")
+}
+
+model Document {
+  id             String       @id @default(uuid()) @db.Uuid
+  name           String
+  status         String
+  employeeId     String       @db.Uuid
+  documentTypeId String       @db.Uuid
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime     @updatedAt @db.Timestamptz(3)
+  createdBy      String?      @db.Uuid
+  updatedBy      String?      @db.Uuid
+  employee       Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  documentType   DocumentType @relation(fields: [documentTypeId], references: [id], onDelete: Restrict)
+
+  @@index([employeeId], name: "idx_documents_employee")
+  @@index([documentTypeId], name: "idx_documents_type")
+  @@index([status], name: "idx_documents_status")
+  @@index([employeeId, status], name: "idx_documents_employee_status")
+  @@index([createdAt], name: "idx_documents_created")
+  @@map("documents")
+}

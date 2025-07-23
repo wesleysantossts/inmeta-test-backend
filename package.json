@@ -11,7 +11,11 @@
     "test:watch": "jest --watch --verbose=false",
     "test:coverage": "jest --coverage",
     "test:silent": "jest --silent",
-    "test:clean": "jest --verbose=false --silent=false --onlyFailures"
+    "test:clean": "jest --verbose=false --silent=false --onlyFailures",
+    "db:migrate": "prisma migrate dev --schema=./src/infrastructure/config/database/schema.prisma",
+    "db:deploy": "prisma migrate deploy --schema=./src/infrastructure/config/database/schema.prisma",
+    "db:reset": "prisma migrate deploy --schema=./src/infrastructure/config/database/schema.prisma",
+    "db:generate": "prisma generate --schema=./src/infrastructure/config/database/schema.prisma"
   },
   "repository": {
     "type": "git",
@@ -29,10 +33,12 @@
   },
   "homepage": "https://github.com/wesleysantossts/inmeta-test-backend#readme",
   "dependencies": {
+    "@prisma/client": "^6.12.0",
     "axios": "^1.10.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
+    "prisma": "^6.12.0",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "yaml": "^2.8.0"
