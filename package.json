@@ -1,0 +1,44 @@
+{
+  "name": "inmeta-test-backend",
+  "version": "1.0.0",
+  "description": "Desafio técnico para a empresa InMeta",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config ./dist/app.js",
+    "dev": "nodemon",
+    "build": "tsc --build",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wesleysantossts/inmeta-test-backend.git"
+  },
+  "keywords": [
+    "inmeta",
+    "backend",
+    "test"
+  ],
+  "author": "Wesley Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wesleysantossts/inmeta-test-backend/issues"
+  },
+  "homepage": "https://github.com/wesleysantossts/inmeta-test-backend#readme",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3",
+    "yaml": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/swagger-ui-express": "^4.1.8",
+    "dotenv": "^17.2.0"
+  }
+}

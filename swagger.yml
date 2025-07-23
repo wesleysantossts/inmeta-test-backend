@@ -1,0 +1,714 @@
+openapi: 3.0.4
+info:
+  title: API de Gerenciamento de Documentação de Colaboradores
+  description: API desenvolvida para desafio técnico da empresa InMeta.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Ambiente de desenvolvimento
+
+security:
+  - BearerAuth: []
+  
+paths:
+  /employees:
+    get:
+      summary: Listar colaboradores
+      tags:
+        - Colaboradores
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortOrderParam'
+        - $ref: '#/components/parameters/SortByEmployeeParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeResponseFindAll'
+    post:
+      summary: Criar colaborador
+      tags:
+        - Colaboradores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeBodyDTO"
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeResponseCreate'
+  /employees/{id}:
+    get:
+      summary: Listar colaborador
+      tags:
+        - Colaboradores
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeResponseFind'
+    put:
+      summary: Atualizar colaborador
+      tags:
+        - Colaboradores
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeBodyUpdateDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeResponseUpdate'
+    delete:
+      summary: Remover colaborador
+      tags:
+        - Colaboradores
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeResponseDelete'
+  
+  /documents:
+    get:
+      summary: Listar documentos
+      tags:
+        - Documentos
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortOrderParam'
+        - $ref: '#/components/parameters/SortByDocumentParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentResponseFindAll'
+    post:
+      summary: Criar documento
+      tags:
+        - Documentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentBodyDTO"
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentResponseCreate'
+  /documents/{id}:
+    get:
+      summary: Listar documento
+      tags:
+        - Documentos
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentResponseFind'
+    put:
+      summary: Atualizar documento
+      tags:
+        - Documentos
+      parameters:
+      - in: paths
+        name: id
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentBodyUpdateDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentResponseUpdate'
+    delete:
+      summary: Remover documento
+      tags:
+        - Documentos
+      parameters:
+      - in: paths
+        name: id
+        required: true
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentResponseDelete'
+
+  /document-types:
+    get:
+      summary: Listar tipos de documento
+      tags:
+        - Tipos de documentos
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortOrderParam'
+        - $ref: '#/components/parameters/SortByDocumentTypeParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentTypeResponseFindAll'
+    post:
+      summary: Criar tipo de documento
+      tags:
+        - Tipos de documentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentTypeBodyDTO"
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentTypeResponseCreate'
+  /document-types/{id}:
+    get:
+      summary: Listar tipo de documento
+      tags:
+        - Tipos de documentos
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentTypeResponseFind'
+    put:
+      summary: Atualizar tipo de documento
+      tags:
+        - Tipos de documentos
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentTypeBodyDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentTypeResponseUpdate'
+    delete:
+      summary: Remover tipo de documento
+      tags:
+        - Tipos de documentos
+      parameters:
+        - in: paths
+          name: id
+          required: true
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/DocumentTypeResponseDelete'
+
+tags:
+  - name: Colaboradores
+    description: Gestão de colaboradores  
+  - name: Documentos
+    description: Gestão de documentos  
+  - name: Tipos de documentos
+    description: Gestão de tipos de documentos  
+
+x-employee-data: &employee_data
+  id: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  name: Wesley Santos
+  document: '1234567891'
+  hiredAt: '2024-07-22 14:30:45.123'
+  createdAt: '2024-07-22 14:30:45.123'
+  updatedAt: '2024-07-22 14:30:45.123'
+  createdBy: '2024-07-22 14:30:45.123'
+  updatedBy: '2024-07-22 14:30:45.123'
+x-document-type-data: &document_type_data
+  id: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  name: cpf
+  createdAt: '2024-07-22 14:30:45.123'
+  updatedAt: '2024-07-22 14:30:45.123'
+  createdBy: '2024-07-22 14:30:45.123'
+  updatedBy: '2024-07-22 14:30:45.123'
+x-document-data: &document_data
+  id: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  name: cpf
+  status: ENVIADO
+  employeeId: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  documentTypeId: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  createdAt: '2024-07-22 14:30:45.123'
+  updatedAt: '2024-07-22 14:30:45.123'
+  createdBy: '2024-07-22 14:30:45.123'
+  updatedBy: '2024-07-22 14:30:45.123'
+x-pagination-data: &pagination_data
+  count: 100
+  pages: 10
+
+components:
+  
+  schemas:
+    EmployeeDTO:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            name:
+              type: string
+              example: Wesley
+            document:
+              type: string
+              example: '1234567891'
+            hiredAt:
+              type: date
+              example: '2024-07-22 14:30:45.123'
+        - $ref: '#/components/schemas/BaseAuditFieldsDTO'
+
+    EmployeeBodyDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Wesley
+          required: true
+        document:
+          type: string
+          example: '1234567891'
+        hiredAt:
+          type: string
+          example: '23/07/2025'
+    EmployeeBodyUpdateDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Wesley
+        document:
+          type: string
+          example: '1234567891'
+        hiredAt:
+          type: string
+          example: '23/07/2025'
+
+    DocumentTypeDTO:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            name:
+              type: string
+              enum: [cpf,cnpj]
+              example: cpf
+        - $ref: '#/components/schemas/BaseAuditFieldsDTO'
+    DocumentTypeBodyDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          enum: [cpf,cnpj]
+          example: cpf
+          required: true
+
+    DocumentDTO:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            name:
+              type: string
+              example: Wesley Santos
+            status:
+              type: string 
+              enum: [ENVIADO,PENDENTE]
+              example: ENVIADO
+            employeeId:
+              type: string
+              example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            documentTypeId:
+              type: string
+              example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+        - $ref: '#/components/schemas/BaseAuditFieldsDTO'
+    DocumentBodyDTO:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Wesley Santos
+            required: true
+          status:
+            type: string 
+            enum: [ENVIADO,PENDENTE]
+            example: ENVIADO
+            required: true
+          employeeId:
+            type: string
+            example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            required: true
+          documentTypeId:
+            type: string
+            example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            required: true
+    DocumentBodyUpdateDTO:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Wesley Santos
+          status:
+            type: string 
+            enum: [ENVIADO,PENDENTE]
+            example: ENVIADO
+          employeeId:
+            type: string
+            example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+          documentTypeId:
+            type: string
+            example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+
+    BaseAuditFieldsDTO:
+      type: object
+      properties:
+        createdAt:
+          type: date
+          example: '2024-07-22 14:30:45.123'
+        updatedAt:
+          type: date
+          example: '2024-07-22 14:30:45.123'
+        createdBy:
+          type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+        updatedBy:
+          type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+      required:
+        - createdAt
+        - updatedAt
+        - createdBy
+        - updatedBy
+    
+    BaseResponseDTO:
+      type: object
+      properties:
+        result:
+          type: boolean
+          example: true
+        response:
+          type: string
+          example: Operação realizada com sucesso
+        data:
+          datas:
+            description: Pode ser um objeto, uma lista ou null
+            oneOf:
+              - type: object
+                description: Exemplo
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+              - type: array
+                description: Exemplo
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+              - type: "null"
+                description: Exemplo
+          pagination:
+            type: object
+            properties:
+              count:
+                type: integer
+                example: 100
+              pages:
+                type: integer
+                example: 100
+      required:
+        - result
+        - response
+        - data
+  
+  examples:
+    
+    #region RESPONSES 
+    #OK
+    EmployeeResponseFindAll:
+      summary: Colaboradores
+      value:
+        result: true
+        response: Colaboradores encontrados com sucesso
+        data:
+          count: 100
+          pages: 1
+          datas:
+            - *employee_data
+    EmployeeResponseFind:
+      summary: Colaborador
+      value:
+        result: true
+        response: Colaborador encontrado com sucesso
+        data:
+          datas: *employee_data
+    EmployeeResponseCreate:
+      summary: Colaborador
+      value:
+        result: true
+        response: Colaborador criado com sucesso
+        data:
+          datas: *employee_data
+    EmployeeResponseUpdate:
+      summary: Colaborador
+      value:
+        result: true
+        response: Colaborador atualizado com sucesso
+        data:
+          datas: *employee_data
+    EmployeeResponseDelete:
+      summary: Colaborador
+      value:
+        result: true
+        response: Colaborador removido com sucesso
+        data:
+          datas: *employee_data
+    
+    DocumentResponseFindAll:
+      summary: Documentos
+      value:
+        result: true
+        response: Documentos encontrados com sucesso
+        data:
+          count: 100
+          pages: 1
+          datas:
+            - *document_data
+    DocumenteeResponseFind:
+      summary: Documento
+      value:
+        result: true
+        response: Documento encontrado com sucesso
+        data:
+          datas: *document_data
+    DocumentResponseCreate:
+      summary: Documento
+      value:
+        result: true
+        response: Documento criado com sucesso
+        data:
+          datas: *document_data
+    DocumentResponseUpdate:
+      summary: Documento
+      value:
+        result: true
+        response: Documento atualizado com sucesso
+        data:
+          datas: *document_data
+    DocumentResponseDelete:
+      summary: Documento
+      value:
+        result: true
+        response: Documento removido com sucesso
+        data:
+          datas: *document_data
+    
+    DocumentTypeResponseFindAll:
+      summary: Tipos de documentos
+      value:
+        result: true
+        response: Tipos de documentos encontrados com sucesso
+        data:
+          count: 100
+          pages: 1
+          datas:
+            - *document_type_data
+    DocumentTypeResponseFind:
+      summary: Tipo de documento
+      value:
+        result: true
+        response: Tipo de documento encontrado com sucesso
+        data:
+          datas: *document_type_data
+    DocumentTypeResponseCreate:
+      summary: Tipo de documento
+      value:
+        result: true
+        response: Tipo de documento criado com sucesso
+        data:
+          datas: *document_type_data
+    DocumentTypeResponseUpdate:
+      summary: Tipo de documento
+      value:
+        result: true
+        response: Tipo de documento atualizado com sucesso
+        data:
+          datas: *document_type_data
+    DocumentTypeResponseDelete:
+      summary: Tipo de documento
+      value:
+        result: true
+        response: Tipo de documento removido com sucesso
+        data:
+          datas: *document_type_data
+    # ERROS
+    #endregion
+
+  parameters:
+
+    PageParam:
+      name: page
+      in: query
+      description: Número da página (começando em 1)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      example: 1
+
+    LimitParam:
+      name: limit
+      in: query
+      description: Quantidade de itens por página
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+      example: 10
+
+    SortOrderParam:
+      name: sortOrder
+      in: query
+      description: Direção da ordenação
+      required: false
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: desc
+      example: desc
+
+    SortByEmployeeParam:
+      name: sortBy
+      in: query
+      description: Campo da ordenação
+      required: false
+      schema:
+        type: string
+        enum: [name, document,hiredAt,createdAt,updatedAt]
+        default: createdAt
+      example: createdAt
+
+    SortByDocumentTypeParam:
+      name: sortBy
+      in: query
+      description: Campo da ordenação
+      required: false
+      schema:
+        type: string
+        enum: [name,createdAt,updatedAt]
+        default: createdAt
+      example: createdAt
+
+    SortByDocumentParam:
+      name: sortBy
+      in: query
+      description: Campo da ordenação
+      required: false
+      schema:
+        type: string
+        enum: [name,status,createdAt,updatedAt]
+        default: createdAt
+      example: createdAt
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Token JWT no formato Bearer.
+        Exemplo: `Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
