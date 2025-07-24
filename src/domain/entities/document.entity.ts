@@ -6,10 +6,10 @@ export class Document {
   public status: DocumentStatus;
   public employeeId: string;
   public documentTypeId: string;
-  public createdAt: Date;
-  public updatedAt: Date;
-  public createdBy: Date;
-  public updatedBy: Date;
+  public createdAt: string;
+  public updatedAt: string;
+  public createdBy: string;
+  public updatedBy: string;
 
   constructor(data: Document) {
     Object.assign(this, data);

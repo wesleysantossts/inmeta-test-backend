@@ -1,7 +1,5 @@
 import { EmployeeBodyDTO, EmployeeQueryParams, EmployeeUpdateDTO, IEmployeesRepository } from '@/application/dtos/employee.dto';
-import { IUserQueryParams, UserBodyDTO } from '@/application/dtos/user.dto';
 import { Employee } from '@/domain/entities/employee.entity';
-import { User } from '@/domain/entities/user.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { PrismaClient } from '@prisma/client';
 
@@ -81,7 +79,7 @@ export class EmployeesRepository implements IEmployeesRepository {
 
   async update(data: EmployeeUpdateDTO) {
     const foundEmployee = await this.find(data.id);
-    if (!foundEmployee) throw new ApplicationError('Usuário não encontrado pelo id', 404);
+    if (!foundEmployee) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
 
     const { id: idFoundEmployee, ...restFoundEmployee } = foundEmployee;
     const { id, ...rest } = data;
@@ -98,7 +96,7 @@ export class EmployeesRepository implements IEmployeesRepository {
 
   async delete(id: string) {
     const foundEmployee = await this.find(id);
-    if (!foundEmployee) throw new ApplicationError('Usuário não encontrado pelo id', 404);
+    if (!foundEmployee) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
 
     await this.prisma.user.delete({ where: { id } });
   }
