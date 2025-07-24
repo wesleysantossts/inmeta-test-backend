@@ -23,7 +23,7 @@ export class EmployeeController implements IEmployeeController {
     }); 
     res.status(201).json({
       result: true,
-      response: 'Colaborador cadastrado com sucesso',
+      response: 'Colaborador criado com sucesso',
       data
     })
   }
@@ -33,8 +33,8 @@ export class EmployeeController implements IEmployeeController {
     const { name, document, hiredAt } = req.body;
     if (!name && !document && !hiredAt) throw new ApplicationError('Deve conter name, document ou hiredAt', 400);
 
-    const data = await this.employeeService.create({ ...req.body, id }); 
-    res.status(201).json({
+    const data = await this.employeeService.update({ ...req.body, id }); 
+    res.status(200).json({
       result: true,
       response: 'Colaborador atualizado com sucesso',
       data
