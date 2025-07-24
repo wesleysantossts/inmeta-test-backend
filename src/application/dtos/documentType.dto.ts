@@ -1,15 +1,13 @@
+import { Request, Response } from 'express';
+
 import { DocumentType } from '@/domain/entities/documentType.entity';
-import { IBaseGetAll, IBaseQueryParams } from './base.dto';
+import { BaseResponse, IBaseGetAll, IBaseQueryParams } from './base.dto';
 
 //#region TYPES
 export type AvailableDocumentType = 'cpf' | 'cnpj';
 export type DocumentTypeBodyDTO = Omit<DocumentTypeDTO, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
 export type DocumentTypeUpdateDTO = Partial<DocumentTypeBodyDTO> & { id: string };
-
-export type DocumentTypeQueryParamsSortBy = Pick<IBaseQueryParams, 'sortBy'> & 'name';
-export type DocumentTypeQueryParams = Partial<IBaseQueryParams> & {
-  sortBy: DocumentTypeQueryParamsSortBy;
-} 
+type AvailableQueryParamsOrderBy = 'name';
 //#endregion
 
 //#region INTERFACES
@@ -21,7 +19,13 @@ export interface DocumentTypeDTO {
   createdBy: string;
   updatedBy: string;
 }
-
+export type DocumentTypeQueryParamsSortBy = Pick<IBaseQueryParams, 'sortBy'> & 'name';
+export type DocumentTypeQueryParams = Partial<IBaseQueryParams> & {
+  orderBy?: IBaseQueryParams['orderBy'] & AvailableQueryParamsOrderBy;
+  filters?: {
+    name?: string,
+  };
+} 
 export interface IDocumentTypesRepository {
   find: (id: string) => Promise<DocumentType | undefined>;
   findAll: (params: DocumentTypeQueryParams) => Promise<IBaseGetAll<DocumentType[]> | undefined>;
@@ -29,6 +33,9 @@ export interface IDocumentTypesRepository {
   update: (body: DocumentTypeUpdateDTO) => Promise<DocumentType | undefined>;
   delete: (id: string) => Promise<void>;
 }
-export interface IDocumentsTypeService extends IDocumentTypesRepository {}
-export interface IDocumentsTypeController extends IDocumentTypesRepository {}
+export interface IDocumentTypeService extends Pick<IDocumentTypesRepository, 'create' | 'update'> {}
+export interface IDocumentTypeController {
+  create: (req: Request, res: BaseResponse<DocumentType | undefined>) => Promise<void>;
+  update: (req: Request, res: BaseResponse<DocumentType | undefined>) => Promise<void>;
+}
 //#endregion

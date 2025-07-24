@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-import { IAuthController, IAuthResponse, IAuthService } from '@/application/dtos/auth.dto';
 import { BaseResponse } from '@/application/dtos/base.dto';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { IEmployeeController, IEmployeeService } from '@/application/dtos/employee.dto';

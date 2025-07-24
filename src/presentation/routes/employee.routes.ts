@@ -1,5 +1,6 @@
-import { EmployeeFactory } from '@/shared/factories/employee.factory';
 import express from 'express';
+
+import { EmployeeFactory } from '@/shared/factories/employee.factory';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
 // /employees

@@ -98,6 +98,6 @@ export class EmployeesRepository implements IEmployeesRepository {
     const foundEmployee = await this.find(id);
     if (!foundEmployee) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
 
-    await this.prisma.user.delete({ where: { id } });
+    await this.prisma.employee.delete({ where: { id } });
   }
 }

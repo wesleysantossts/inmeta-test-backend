@@ -98,6 +98,6 @@ export class DocumentTypesRepository implements IDocumentTypesRepository {
     const foundDocumentType = await this.find(id);
     if (!foundDocumentType) throw new ApplicationError('Tipo de documento não encontrado pelo id', 404);
 
-    await this.prisma.document.delete({ where: { id } });
+    await this.prisma.documentType.delete({ where: { id } });
   }
 }
