@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { AuthFactory } from '@/shared/factories/auth.factory';
+import { authMiddleware } from '../middlewares/auth.middleware';
 
 // /auth
 const authRoutes = express.Router();
