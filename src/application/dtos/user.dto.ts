@@ -3,7 +3,7 @@ import { IBaseGetAll, IBaseQueryParams } from './base.dto';
 
 //#region TYPES
 export type UserBodyDTO = Omit<UserDTO, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
-export type UserUpdateDTO = Partial<UserBodyDTO>;
+export type UserUpdateDTO = Partial<UserBodyDTO> & { id: string };
 
 type AvailableQueryParamsOrderBy = 'name' | 'email';
 export interface IUserQueryParams extends Partial<IBaseQueryParams> {
@@ -21,18 +21,18 @@ export interface UserDTO {
   name: string;
   email: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy?: Date;
-  updatedBy?: Date;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 export interface IUsersRepository {
   find: (id: string) => Promise<User | undefined>;
   findAll: (data: IUserQueryParams) => Promise<IBaseGetAll<User[]> | undefined>;
   create: (data: UserBodyDTO) => Promise<User | undefined>;
-  // update: (body: UserUpdateDTO) => Promise<User | undefined>;
-  // delete: (id: string) => Promise<User | undefined>;
+  update: (data: UserUpdateDTO) => Promise<User | undefined>;
+  delete: (id: string) => Promise<void>;
 }
 export interface IUsersService extends IUsersRepository {}
 export interface IUsersController extends IUsersRepository {}

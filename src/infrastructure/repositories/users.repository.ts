@@ -1,4 +1,4 @@
-import { IUserQueryParams, IUsersRepository, UserBodyDTO } from '@/application/dtos/user.dto';
+import { IUserQueryParams, IUsersRepository, UserBodyDTO, UserUpdateDTO } from '@/application/dtos/user.dto';
 import { User } from '@/domain/entities/user.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { PrismaClient } from '@prisma/client';
@@ -40,9 +40,14 @@ export class UsersRepository implements IUsersRepository {
 
     let where = null;
     if (filters) {
-      where = {
-        OR: Object.keys(filters).map(key => ({ [key]: { contains: (filters as Record<string, any>)[key], mode: 'insensitive' } }))
-      }
+      const availableFilterFields = ['name','email'];
+      const query = Object.keys(filters).map(key => {
+        if (!availableFilterFields.includes(key)) throw new ApplicationError('Apenas os parâmetros name e email podem ser usados', 401);
+
+        return { [key]: { contains: (filters as Record<string, any>)[key], mode: 'insensitive' }}
+      })
+
+      where = { OR: query };
     }
 
     const skip = (page - 1) * take;
@@ -70,5 +75,29 @@ export class UsersRepository implements IUsersRepository {
   async create(data: UserBodyDTO) {
     const result = await this.prisma.user.create({ data, omit: { password: true } });
     return this._instance(result);
+  }
+  
+  async update(data: UserUpdateDTO) {
+    const foundUser = await this.find(data.id);
+    if (!foundUser) throw new ApplicationError('Usuário não encontrado pelo id', 404);
+
+    const { id: idFoundUser, ...restFoundUser } = foundUser;
+    const { id, ...rest } = data;
+    const updatedUser = await this.prisma.user.update({
+      where: { id: id },
+      data: {
+        ...foundUser,
+        ...rest
+      }
+    });
+
+    return this._instance(updatedUser);
+  }
+
+  async delete(id: string) {
+    const user = await this.find(id);
+    if (!user) throw new ApplicationError('Usuário não encontrado pelo id', 404);
+
+    await this.prisma.user.delete({ where: { id } });
   }
 }

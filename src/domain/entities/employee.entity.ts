@@ -3,10 +3,10 @@ export class Employee {
   public name: string;
   public document: string;
   public hiredAt: string;
-  public createdAt: Date;
-  public updatedAt: Date;
-  public createdBy: Date;
-  public updatedBy: Date;
+  public createdAt: string;
+  public updatedAt: string;
+  public createdBy: string;
+  public updatedBy: string;
 
   constructor(data: Employee) {
     Object.assign(this, data);
