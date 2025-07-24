@@ -1,6 +1,7 @@
 import { User } from '@/domain/entities/user.entity';
-import { IBaseQueryParams } from './base.dto';
+import { BaseResponse, IBaseQueryParams } from './base.dto';
 import { UserBodyDTO } from './user.dto';
+import { Request, Response } from 'express';
 
 //#region TYPES
 export type SignInParams = Omit<UserBodyDTO, 'name'>;
@@ -12,8 +13,11 @@ export interface IAuthResponse {
   token: string;
 } 
 export interface IAuthService {
-  signUp: (params: UserBodyDTO) => Promise<IAuthResponse | undefined>
-  signIn: (params: SignInParams) => Promise<IAuthResponse | undefined>
+  signUp: (params: UserBodyDTO) => Promise<IAuthResponse>
+  // signIn: (params: SignInParams) => Promise<IAuthResponse>
 }
-export interface IAuthController extends IAuthService {}
+export interface IAuthController {
+  signUp: (req: Request, res: BaseResponse<IAuthResponse>) => Promise<void>;
+  // signIn: (req: Request, res: BaseResponse<IAuthResponse>) => Promise<void>;
+}
 //#endregion

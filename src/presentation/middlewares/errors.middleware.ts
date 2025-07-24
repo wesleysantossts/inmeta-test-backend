@@ -2,8 +2,6 @@ import { ErrorHandlerType } from '@/application/dtos/base.dto';
 import { env } from '@/infrastructure/config/environment';
 
 export const errorHandler: ErrorHandlerType = (err, req, res, next) => {
-  console.error(err.stack);
-  
   if (err.statusCode) {
     return res.status(err.statusCode).json({
       result: false,

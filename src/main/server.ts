@@ -7,9 +7,8 @@ import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
 
 const app = express();
-app.use('/api', express.json(), express.urlencoded({ extended: true }), cors());
-
-app.use(routes);
+app.use(express.json(), express.urlencoded({ extended: true }), cors());
+app.use('/api', routes);
 
 const file = fs.readFileSync('./swagger.yml', 'utf-8');
 const swaggerDocs = YAML.parse(file);
