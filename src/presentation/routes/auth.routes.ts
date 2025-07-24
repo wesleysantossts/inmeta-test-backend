@@ -1,10 +1,11 @@
 import express from 'express';
 
-import { SignUpFactory } from '../../shared/factories/auth/SignUp.factory';
+import { AuthFactory } from '@/shared/factories/auth.factory';
 
 // /auth
 const authRoutes = express.Router();
 
-authRoutes.post('/signup', async (req, res) => await SignUpFactory().signUp(req, res))
+authRoutes.post('/signup', async (req, res) => await AuthFactory().signUp(req, res))
+authRoutes.post('/signin', async (req, res) => await AuthFactory().signIn(req, res))
 
 export default authRoutes;

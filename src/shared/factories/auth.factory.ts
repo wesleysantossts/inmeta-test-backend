@@ -3,7 +3,7 @@ import { UsersRepository } from '@/infrastructure/repositories/users.repository'
 import { AuthController } from '@/presentation/controllers/auth.controller';
 import { Request, Response } from 'express';
 
-export function SignUpFactory() {
+export function AuthFactory() {
   const usersRepository = new UsersRepository();
   const service = new AuthService(
     usersRepository

@@ -9,15 +9,15 @@ export type SignInParams = Omit<UserBodyDTO, 'name'>;
 
 //#region INTERFACES
 export interface IAuthResponse {
-  user: User;
+  user: Partial<User>;
   token: string;
 } 
 export interface IAuthService {
-  signUp: (params: UserBodyDTO) => Promise<IAuthResponse>
-  // signIn: (params: SignInParams) => Promise<IAuthResponse>
+  signUp: (data: UserBodyDTO) => Promise<IAuthResponse>
+  signIn: (data: SignInParams) => Promise<IAuthResponse>
 }
 export interface IAuthController {
   signUp: (req: Request, res: BaseResponse<IAuthResponse>) => Promise<void>;
-  // signIn: (req: Request, res: BaseResponse<IAuthResponse>) => Promise<void>;
+  signIn: (req: Request, res: BaseResponse<IAuthResponse>) => Promise<void>;
 }
 //#endregion

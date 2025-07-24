@@ -28,7 +28,7 @@ export interface UserDTO {
 }
 
 export interface IUsersRepository {
-  // find: (id: string) => Promise<User | undefined>;
+  find: (id: string) => Promise<User | undefined>;
   findAll: (data: IUserQueryParams) => Promise<IBaseGetAll<User[]> | undefined>;
   create: (data: UserBodyDTO) => Promise<User | undefined>;
   // update: (body: UserUpdateDTO) => Promise<User | undefined>;

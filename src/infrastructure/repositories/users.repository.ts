@@ -22,14 +22,21 @@ export class UsersRepository implements IUsersRepository {
     });
   }
 
-  async findAll(params: IUserQueryParams) {
+  async find(id: string) {
+    const user = await this.prisma.user.findUnique({ where: { id }, omit: { password: true } });
+    if (!user) return;
+
+    return this._instance(user);
+  }
+
+  async findAll(data: IUserQueryParams) {
     const {
       page = 1,
       limit: take = 5,
       orderBy = 'createdAt',
       sortBy = 'asc',
       filters
-    } = params;
+    } = data;
 
     let where = null;
     if (filters) {
