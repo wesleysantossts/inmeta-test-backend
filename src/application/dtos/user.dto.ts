@@ -4,15 +4,7 @@ import { IBaseGetAll, IBaseQueryParams } from './base.dto';
 //#region TYPES
 export type UserBodyDTO = Omit<UserDTO, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
 export type UserUpdateDTO = Partial<UserBodyDTO> & { id: string };
-
 type AvailableQueryParamsOrderBy = 'name' | 'email';
-export interface IUserQueryParams extends Partial<IBaseQueryParams> {
-  orderBy?: AvailableQueryParamsOrderBy & IBaseQueryParams['orderBy'];
-  filters?: {
-    name?: string,
-    email?: string,
-  };
-}
 //#endregion
 
 //#region INTERFACES
@@ -26,7 +18,13 @@ export interface UserDTO {
   createdBy?: string;
   updatedBy?: string;
 }
-
+export interface IUserQueryParams extends Partial<IBaseQueryParams> {
+  orderBy?: AvailableQueryParamsOrderBy & IBaseQueryParams['orderBy'];
+  filters?: {
+    name?: string,
+    email?: string,
+  };
+}
 export interface IUsersRepository {
   find: (id: string) => Promise<User | undefined>;
   findAll: (data: IUserQueryParams) => Promise<IBaseGetAll<User[]> | undefined>;

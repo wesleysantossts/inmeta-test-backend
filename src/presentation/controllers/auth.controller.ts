@@ -11,9 +11,9 @@ export class AuthController implements IAuthController {
 
   async signUp(req: Request, res: BaseResponse<IAuthResponse>): Promise<void> {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) throw new ApplicationError('Campos nome, email e senha são obrigatórios', 400);
+    if (!name || !email || !password) throw new ApplicationError('Campos name, email e password são obrigatórios', 400);
 
-    const data = await this.authService.signUp({ name, email, password }); 
+    const data = await this.authService.signUp(req.body); 
     res.status(201).json({
       result: true,
       response: 'Usuário cadastrado com sucesso',
@@ -23,9 +23,9 @@ export class AuthController implements IAuthController {
   
   async signIn(req: Request, res: BaseResponse<IAuthResponse>): Promise<void> {
     const { email, password } = req.body;
-    if (!email || !password) throw new ApplicationError('Campos email e senha são obrigatórios', 400);
+    if (!email || !password) throw new ApplicationError('Campos email e password são obrigatórios', 400);
 
-    const data = await this.authService.signIn({ email, password }); 
+    const data = await this.authService.signIn(req.body); 
     res.status(201).json({
       result: true,
       response: 'Usuário logado com sucesso',

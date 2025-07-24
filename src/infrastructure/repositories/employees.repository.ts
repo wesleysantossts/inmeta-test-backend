@@ -51,13 +51,13 @@ export class EmployeesRepository implements IEmployeesRepository {
     }
 
     const skip = (page - 1) * take;
-    const employees = await this.prisma.user.findMany({
+    const employees = await this.prisma.employee.findMany({
       take,
       skip,
       orderBy: { [orderBy]: sortBy },
       ...(where && { where })
     });
-    const count = await this.prisma.user.count({
+    const count = await this.prisma.employee.count({
       ...(where && { where })
     });
     if (!count) return;
