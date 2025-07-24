@@ -21,8 +21,8 @@ export interface DocumentDTO {
   documentTypeId: string;
   createdAt: Date;
   updatedAt: Date;
-  createdBy: Date;
-  updatedBy: Date;
+  createdBy: string;
+  updatedBy: string;
 }
 
 export interface IDocumentsRepository {

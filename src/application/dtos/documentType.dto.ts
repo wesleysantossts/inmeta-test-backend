@@ -18,8 +18,8 @@ export interface DocumentTypeDTO {
   name: AvailableDocumentType;
   createdAt: Date;
   updatedAt: Date;
-  createdBy: Date;
-  updatedBy: Date;
+  createdBy: string;
+  updatedBy: string;
 }
 
 export interface IDocumentTypesRepository {

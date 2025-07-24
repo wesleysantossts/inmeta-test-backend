@@ -3,8 +3,8 @@ export class Employee {
   public name: string;
   public document: string;
   public hiredAt: string;
-  public createdAt: string;
-  public updatedAt: string;
+  public createdAt: Date;
+  public updatedAt: Date;
   public createdBy: string;
   public updatedBy: string;
 

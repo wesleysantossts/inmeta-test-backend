@@ -6,8 +6,8 @@ export class Document {
   public status: DocumentStatus;
   public employeeId: string;
   public documentTypeId: string;
-  public createdAt: string;
-  public updatedAt: string;
+  public createdAt: Date;
+  public updatedAt: Date;
   public createdBy: string;
   public updatedBy: string;
 

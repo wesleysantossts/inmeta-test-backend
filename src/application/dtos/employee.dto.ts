@@ -16,8 +16,8 @@ export interface EmployeeDTO {
   hiredAt: string;
   createdAt: Date;
   updatedAt: Date;
-  createdBy?: Date;
-  updatedBy?: Date;
+  createdBy?: string;
+  updatedBy?: string;
 }
 export interface EmployeeQueryParams extends Partial<IBaseQueryParams> {
   orderBy?: IBaseQueryParams['orderBy'] & AvailableQueryParamsOrderBy;
