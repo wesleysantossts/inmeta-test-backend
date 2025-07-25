@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { BaseResponse, IBaseGetAll } from '@/application/dtos/base.dto';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { Document } from '@/domain/entities/document.entity';
-import { IDocumentsController, IDocumentsService } from '@/application/dtos/document.dto';
+import { DocumentStatus, IDocumentsController, IDocumentsService } from '@/application/dtos/document.dto';
 
 export class DocumentsController implements IDocumentsController {
   constructor(
@@ -57,7 +57,8 @@ export class DocumentsController implements IDocumentsController {
     const { name, status, employeeId, documentTypeId } = req.body;
     if (!name || !status || !employeeId || !documentTypeId) 
       throw new ApplicationError('Campos name, status, employeeId e documentTypeId são obrigatório', 400);
-
+    if (!this.isValidStatus(status)) throw new ApplicationError('Status inválido', 400);
+    
     const data = await this.documentService.create({
       ...req.body,
       createdBy: userId,
@@ -73,7 +74,9 @@ export class DocumentsController implements IDocumentsController {
   async update(req: Request, res: BaseResponse<Document>): Promise<void> {
     const { id } = req.params;
     const { name, status, employeeId, documentTypeId } = req.body;
-    if (!name && !status && !employeeId && !documentTypeId) throw new ApplicationError('Deve conter ao menos um dos campos name, status, employeeId ou documentTypeId', 400);
+    if (!name && !status && !employeeId && !documentTypeId)
+      throw new ApplicationError('Deve conter ao menos um dos campos name, status, employeeId ou documentTypeId', 400);
+    if (!this.isValidStatus(status)) throw new ApplicationError('Status inválido', 400);
 
     const data = await this.documentService.update({ ...req.body, id }); 
     res.status(200).json({
@@ -126,5 +129,10 @@ export class DocumentsController implements IDocumentsController {
       response: 'Documentos encontrados com sucesso',
       data
     })
+  }
+
+  private isValidStatus(status: string): status is DocumentStatus {
+    const validStatus: DocumentStatus[] = ['PENDENTE','ENVIADO','REJEITADO','APROVADO'];
+    return validStatus.includes(status as DocumentStatus);
   }
 }
