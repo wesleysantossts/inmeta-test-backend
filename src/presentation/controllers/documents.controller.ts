@@ -15,7 +15,7 @@ export class DocumentsController implements IDocumentsController {
     if (!id) throw new ApplicationError('O id é obrigatório', 400);
 
     const data = await this.documentService.find(id); 
-    res.status(201).json({
+    res.status(200).json({
       result: true,
       response: 'Documento encontrado com sucesso',
       data
@@ -45,7 +45,7 @@ export class DocumentsController implements IDocumentsController {
       limit: Number(limit),
       ...(Object.keys(filters).length > 0 && { filters })
     }); 
-    res.status(201).json({
+    res.status(200).json({
       result: true,
       response: 'Documentos encontrados com sucesso',
       data

@@ -65,6 +65,20 @@ paths:
         - $ref: '#/components/parameters/LimitParam'
         - $ref: '#/components/parameters/SortByParam'
         - $ref: '#/components/parameters/OrderByEmployeeParam'
+        - name: name
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+          example: Wesley
+        - name: document
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+          example: '123314631'
       responses:
         '200':
           description: OK
@@ -244,8 +258,37 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SortOrderParam'
-        - $ref: '#/components/parameters/SortByDocumentParam'
+        - $ref: '#/components/parameters/SortByParam'
+        - $ref: '#/components/parameters/OrderByDocumentParam'
+        - name: name
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+          example: Wesley
+        - name: status
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+            enum: [PENDENTE,ENVIADO,REJEITADO,APROVADO]
+          example: ENVIADO
+        - name: employeeId
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+        - name: documentTypeId
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
       responses:
         '200':
           description: OK
@@ -264,7 +307,7 @@ paths:
             schema:
               $ref: "#/components/schemas/DocumentBodyDTO"
       responses:
-        '201':
+        '200':
           description: OK
           content:
             application/json:
@@ -318,7 +361,7 @@ paths:
         name: id
         required: true
       responses:
-        '204':
+        '200':
           description: OK
           content:
             application/json:
@@ -336,7 +379,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SortOrderParam'
+        - $ref: '#/components/parameters/OrderByParam'
         - $ref: '#/components/parameters/SortByDocumentTypeParam'
       responses:
         '200':
@@ -573,12 +616,13 @@ components:
         properties:
           name:
             type: string
-            example: Wesley Santos
+            example: cnh.pdf
             required: true
           status:
             type: string 
-            enum: [ENVIADO,PENDENTE]
-            example: ENVIADO
+            enum: [PENDENTE,ENVIADO,REJEITADO,APROVADO]
+            example: PENDENTE
+            default: PENDENTE
             required: true
           employeeId:
             type: string
@@ -593,11 +637,11 @@ components:
         properties:
           name:
             type: string
-            example: Wesley Santos
+            example: cpf.pdf
           status:
             type: string 
-            enum: [ENVIADO,PENDENTE]
-            example: ENVIADO
+            enum: [PENDENTE,ENVIADO,APROVADO,REJEITADO]
+            example: PENDENTE
           employeeId:
             type: string
             example: a81bc81b-dead-4e5d-abff-90865d1e13b1
@@ -793,34 +837,30 @@ components:
           pages: 1
           datas:
             - *document_data
-    DocumenteeResponseFind:
+    DocumentResponseFind:
       summary: Documento
       value:
         result: true
         response: Documento encontrado com sucesso
-        data:
-          datas: *document_data
+        data: *document_data
     DocumentResponseCreate:
       summary: Documento
       value:
         result: true
         response: Documento criado com sucesso
-        data:
-          datas: *document_data
+        data: *document_data
     DocumentResponseUpdate:
       summary: Documento
       value:
         result: true
         response: Documento atualizado com sucesso
-        data:
-          datas: *document_data
+        data: *document_data
     DocumentResponseDelete:
       summary: Documento
       value:
         result: true
         response: Documento removido com sucesso
-        data:
-          datas: *document_data
+        data: null
     
     DocumentTypeResponseFindAll:
       summary: Tipos de documentos
@@ -921,16 +961,15 @@ components:
         default: createdAt
       example: createdAt
 
-    SortByDocumentParam:
-      name: sortBy
+    OrderByDocumentParam:
+      name: orderBy
       in: query
       description: Campo da ordenação
       required: false
       schema:
         type: string
-        enum: [name,status,createdAt,updatedAt]
-        default: createdAt
-      example: createdAt
+        enum: [name,status]
+      example: name
 
   securitySchemes:
     BearerAuth:
