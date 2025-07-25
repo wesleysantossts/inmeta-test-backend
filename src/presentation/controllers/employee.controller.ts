@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { BaseResponse } from '@/application/dtos/base.dto';
+import { BaseResponse, IBaseGetAll } from '@/application/dtos/base.dto';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { IEmployeeController, IEmployeeService } from '@/application/dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
@@ -10,7 +10,49 @@ export class EmployeeController implements IEmployeeController {
     private employeeService: IEmployeeService,
   ) {}
 
-  async create(req: Request, res: BaseResponse<Employee | undefined>): Promise<void> {
+  async find(req: Request, res: BaseResponse<Employee | undefined>): Promise<void> {
+    const { id } = req.params;
+    if (!id) throw new ApplicationError('O id é obrigatório', 400);
+
+    const data = await this.employeeService.find(id); 
+    res.status(200).json({
+      result: true,
+      response: 'Colaborador encontrado com sucesso',
+      data
+    })
+  }
+
+  async findAll(req: Request, res: BaseResponse<IBaseGetAll<Employee[]>>): Promise<void> {
+    const {
+      limit = 10,
+      page = 1,
+      orderBy = 'createdAt',
+      sortBy = 'asc',
+      ...filters
+    } = req.query;
+
+    const availableOrderBy = ['name'];
+    const availableFilters = ['name'];
+    
+    if (orderBy && !availableOrderBy.includes(String(orderBy))) 
+      throw new ApplicationError(`Apenas o campo ${availableOrderBy.join(', ')} é permitido no orderBy`, 400);
+    if (filters && Object.keys(filters).find(key => !availableFilters.includes(key)))
+      throw new ApplicationError(`Apenas o filtro ${availableFilters.join(', ')} é permitidos`, 400);
+
+    const data = await this.employeeService.findAll({
+      ...req.query,
+      page: Number(page),
+      limit: Number(limit),
+      filters
+    }); 
+    res.status(200).json({
+      result: true,
+      response: 'Colaboradores encontrados com sucesso',
+      data
+    })
+  }
+
+  async create(req: Request, res: BaseResponse<Employee>): Promise<void> {
     const { id: userId } = req.user!;
     const { name, document, hiredAt } = req.body;
     if (!name || !document || !hiredAt) throw new ApplicationError('Campos name, document e hiredAt são obrigatórios', 400);
@@ -27,7 +69,7 @@ export class EmployeeController implements IEmployeeController {
     })
   }
 
-  async update(req: Request, res: BaseResponse<Employee | undefined>): Promise<void> {
+  async update(req: Request, res: BaseResponse<Employee>): Promise<void> {
     const { id } = req.params;
     const { name, document, hiredAt } = req.body;
     if (!name && !document && !hiredAt) throw new ApplicationError('Deve conter name, document ou hiredAt', 400);
@@ -37,6 +79,18 @@ export class EmployeeController implements IEmployeeController {
       result: true,
       response: 'Colaborador atualizado com sucesso',
       data
+    })
+  }
+
+  async delete(req: Request, res: BaseResponse<any>): Promise<void> {
+    const { id } = req.params;
+    if (!id) throw new ApplicationError('O campo id é obrigatório', 400);
+
+    await this.employeeService.delete(id); 
+    res.status(200).json({
+      result: true,
+      response: 'Colaborador removido com sucesso',
+      data: null
     })
   }
 }

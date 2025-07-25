@@ -29,14 +29,17 @@ export interface EmployeeQueryParams extends Partial<IBaseQueryParams> {
 }
 export interface IEmployeesRepository {
   find: (id: string) => Promise<Employee | undefined>;
-  findAll: (data: EmployeeQueryParams) => Promise<IBaseGetAll<Employee[]> | undefined>;
-  create: (data: EmployeeBodyDTO) => Promise<Employee | undefined>;
-  update: (data: EmployeeUpdateDTO) => Promise<Employee | undefined>;
+  findAll: (data: EmployeeQueryParams) => Promise<IBaseGetAll<Employee[]>>;
+  create: (data: EmployeeBodyDTO) => Promise<Employee>;
+  update: (data: EmployeeUpdateDTO) => Promise<Employee>;
   delete: (id: string) => Promise<void>;
 }
-export interface IEmployeeService extends Pick<IEmployeesRepository, 'create' | 'update'> {}
+export interface IEmployeeService extends IEmployeesRepository {}
 export interface IEmployeeController {
-  create: (req: Request, res: BaseResponse<Employee | undefined>) => Promise<void>;
-  update: (req: Request, res: BaseResponse<Employee | undefined>) => Promise<void>;
+  find: (req: Request, res: BaseResponse<Employee | undefined>) => Promise<void>;
+  findAll: (req: Request, res: BaseResponse<IBaseGetAll<Employee[]>>) => Promise<void>;
+  create: (req: Request, res: BaseResponse<Employee>) => Promise<void>;
+  update: (req: Request, res: BaseResponse<Employee>) => Promise<void>;
+  delete: (req: Request, res: BaseResponse<any>) => Promise<void>;
 }
 //#endregion

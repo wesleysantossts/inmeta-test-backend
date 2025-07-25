@@ -9,10 +9,10 @@ export class DocumentTypeService implements IDocumentTypeService {
   ) {}
 
   async find(id: string): Promise<DocumentType> {
-    const foundDocument = await this.documentTypeRepository.find(id);
-    if (!foundDocument) throw new ApplicationError('Documento não encontrado pelo id', 404);
+    const foundDocumentType = await this.documentTypeRepository.find(id);
+    if (!foundDocumentType) throw new ApplicationError('Tipo de documento não encontrado pelo id', 404);
     
-    const result = foundDocument;
+    const result = foundDocumentType;
     return result;
   }
   
@@ -45,7 +45,7 @@ export class DocumentTypeService implements IDocumentTypeService {
 
   async delete(id: string): Promise<void> {
     const documentExists = await this.documentTypeRepository.find(id);
-    if (!documentExists) throw new ApplicationError('Documento não encontrado pelo id', 404);
+    if (!documentExists) throw new ApplicationError('Tipo de documento não encontrado pelo id', 404);
     
     await this.documentTypeRepository.delete(id);
   }
