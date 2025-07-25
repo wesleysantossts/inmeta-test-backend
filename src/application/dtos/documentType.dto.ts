@@ -28,14 +28,17 @@ export type DocumentTypeQueryParams = Partial<IBaseQueryParams> & {
 } 
 export interface IDocumentTypesRepository {
   find: (id: string) => Promise<DocumentType | undefined>;
-  findAll: (params: DocumentTypeQueryParams) => Promise<IBaseGetAll<DocumentType[]> | undefined>;
-  create: (body: DocumentTypeBodyDTO) => Promise<DocumentType | undefined>;
-  update: (body: DocumentTypeUpdateDTO) => Promise<DocumentType | undefined>;
+  findAll: (params: DocumentTypeQueryParams) => Promise<IBaseGetAll<DocumentType[]>>;
+  create: (body: DocumentTypeBodyDTO) => Promise<DocumentType>;
+  update: (body: DocumentTypeUpdateDTO) => Promise<DocumentType>;
   delete: (id: string) => Promise<void>;
 }
-export interface IDocumentTypeService extends Pick<IDocumentTypesRepository, 'create' | 'update'> {}
+export interface IDocumentTypeService extends IDocumentTypesRepository {}
 export interface IDocumentTypeController {
-  create: (req: Request, res: BaseResponse<DocumentType | undefined>) => Promise<void>;
-  update: (req: Request, res: BaseResponse<DocumentType | undefined>) => Promise<void>;
+  find: (req: Request, res: BaseResponse<DocumentType | undefined>) => Promise<void>;
+  findAll: (req: Request, res: BaseResponse<IBaseGetAll<DocumentType[]>>) => Promise<void>;
+  create: (req: Request, res: BaseResponse<DocumentType>) => Promise<void>;
+  update: (req: Request, res: BaseResponse<DocumentType>) => Promise<void>;
+  delete: (req: Request, res: BaseResponse<any>) => Promise<void>;
 }
 //#endregion

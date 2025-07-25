@@ -33,10 +33,10 @@ export class DocumentsRepository implements IDocumentsRepository {
 
   async findAll(data: DocumentQueryParams): Promise<IBaseGetAll<Document[]>> {
     const {
-      page = 1,
-      limit: take = 5,
-      orderBy = 'createdAt',
-      sortBy = 'asc',
+      page,
+      limit: take,
+      orderBy,
+      sortBy,
       filters
     } = data;
 
@@ -52,11 +52,11 @@ export class DocumentsRepository implements IDocumentsRepository {
       where = { OR: query };
     }
 
-    const skip = (page - 1) * take;
+    const skip = (page! - 1) * take!;
     const documents = await this.prisma.document.findMany({
       take,
       skip,
-      orderBy: { [orderBy]: sortBy },
+      orderBy: { [orderBy!]: sortBy },
       ...(where && { where })
     });
     const count = await this.prisma.document.count({
@@ -66,7 +66,7 @@ export class DocumentsRepository implements IDocumentsRepository {
     const datas = documents.length > 0 ? documents.map(document => this._instance(document)) : [];
     const result = {
       count,
-      pages: count > 0 ? count / take : count,
+      pages: count / take!,
       datas, 
     }
 

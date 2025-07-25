@@ -22,7 +22,7 @@ export class DocumentTypesRepository implements IDocumentTypesRepository {
     });
   }
 
-  async find(id: string) {
+  async find(id: string): Promise<DocumentType | undefined> {
     const documentType = await this.prisma.documentType.findUnique({ where: { id }});
     if (!documentType) return;
 
@@ -60,9 +60,10 @@ export class DocumentTypesRepository implements IDocumentTypesRepository {
     const count = await this.prisma.documentType.count({
       ...(where && { where })
     });
-    if (!count) return;
 
-    const datas = documentTypes.map(documentType => this._instance(documentType));
+    const datas = documentTypes.length > 0 ? 
+      documentTypes.map(documentType => this._instance(documentType)) 
+      : [];
     const result = {
       count,
       pages: count / take,

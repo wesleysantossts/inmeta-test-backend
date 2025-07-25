@@ -23,7 +23,13 @@ export class DocumentsController implements IDocumentsController {
   }
 
   async findAll(req: Request, res: BaseResponse<IBaseGetAll<Document[]>>): Promise<void> {
-    const { limit, page, orderBy, sortBy, ...filters } = req.query;
+    const {
+      limit = 10,
+      page = 1,
+      orderBy = 'createdAt',
+      sortBy = 'asc',
+      ...filters
+    } = req.query;
 
     const availableOrderBy = ['name','status'];
     const availableFilters = ['name','status','employeeId','documentTypeId'];
@@ -33,7 +39,12 @@ export class DocumentsController implements IDocumentsController {
     if (filters && Object.keys(filters).find(key => !availableFilters.includes(key)))
       throw new ApplicationError(`Apenas os filtros ${availableFilters.join(', ')} são permitidos`, 400);
 
-    const data = await this.documentService.findAll(req.query); 
+    const data = await this.documentService.findAll({
+      ...req.query,
+      page: Number(page),
+      limit: Number(limit),
+      filters
+    }); 
     res.status(201).json({
       result: true,
       response: 'Documentos encontrados com sucesso',
@@ -52,7 +63,7 @@ export class DocumentsController implements IDocumentsController {
       createdBy: userId,
       updatedBy: userId,
     }); 
-    res.status(201).json({
+    res.status(200).json({
       result: true,
       response: 'Documento criado com sucesso',
       data
@@ -81,6 +92,39 @@ export class DocumentsController implements IDocumentsController {
       result: true,
       response: 'Documento removido com sucesso',
       data: null
+    })
+  }
+
+  async pendingDocuments(req: Request, res: BaseResponse<IBaseGetAll<Document[]>>): Promise<void> {
+    const {
+      limit = 10,
+      page = 1,
+      orderBy = 'createdAt',
+      sortBy = 'asc',
+      ...filters
+    } = req.query;
+
+    const availableOrderBy = ['name'];
+    const availableFilters = ['employeeId','documentTypeId'];
+    
+    if (orderBy && !availableOrderBy.includes(String(orderBy))) 
+      throw new ApplicationError(`Apenas os campos ${availableOrderBy.join(', ')} são permitidos no orderBy`, 400);
+    if (filters && Object.keys(filters).find(key => !availableFilters.includes(key)))
+      throw new ApplicationError(`Apenas os filtros ${availableFilters.join(', ')} são permitidos`, 400);
+
+    const data = await this.documentService.findAll({
+      ...req.query,
+      page: Number(page),
+      limit: Number(limit),
+      filters: {
+        ...filters,
+        status: 'PENDENTE',
+      }
+    }); 
+    res.status(200).json({
+      result: true,
+      response: 'Documentos encontrados com sucesso',
+      data
     })
   }
 }
