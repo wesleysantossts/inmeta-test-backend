@@ -32,18 +32,18 @@ export class EmployeeController implements IEmployeeController {
     } = req.query;
 
     const availableOrderBy = ['name'];
-    const availableFilters = ['name'];
+    const availableFilters = ['name','document'];
     
     if (orderBy && !availableOrderBy.includes(String(orderBy))) 
       throw new ApplicationError(`Apenas o campo ${availableOrderBy.join(', ')} é permitido no orderBy`, 400);
     if (filters && Object.keys(filters).find(key => !availableFilters.includes(key)))
-      throw new ApplicationError(`Apenas o filtro ${availableFilters.join(', ')} é permitidos`, 400);
+      throw new ApplicationError(`Apenas os filtro ${availableFilters.join(', ')} são permitidos`, 400);
 
     const data = await this.employeeService.findAll({
       ...req.query,
       page: Number(page),
       limit: Number(limit),
-      filters
+      ...(Object.keys(filters).length > 0 && { filters })
     }); 
     res.status(200).json({
       result: true,
@@ -84,7 +84,7 @@ export class EmployeeController implements IEmployeeController {
 
   async delete(req: Request, res: BaseResponse<any>): Promise<void> {
     const { id } = req.params;
-    if (!id) throw new ApplicationError('O campo id é obrigatório', 400);
+    if (!id) throw new ApplicationError('O id é obrigatório', 400);
 
     await this.employeeService.delete(id); 
     res.status(200).json({

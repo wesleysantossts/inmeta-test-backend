@@ -60,15 +60,15 @@ export class UsersRepository implements IUsersRepository {
     const count = await this.prisma.user.count({
       ...(where && { where })
     });
-    if (!count) return;
 
-    const datas = users.map(user => this._instance(user));
+    const datas = users.length > 0 ? users.map(user => this._instance(user)) : [];
+    const pages = count > take! ? count / take! : 1;
+
     const result = {
       count,
-      pages: count / take,
+      pages,
       datas, 
     }
-
     return result; 
   }
 

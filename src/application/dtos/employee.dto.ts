@@ -24,7 +24,6 @@ export interface EmployeeQueryParams extends Partial<IBaseQueryParams> {
   filters?: {
     name?: string,
     document?: string,
-    hiredAt?: string,
   };
 }
 export interface IEmployeesRepository {

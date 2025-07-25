@@ -32,15 +32,15 @@ export class EmployeesRepository implements IEmployeesRepository {
   async findAll(data: EmployeeQueryParams) {
     const {
       page = 1,
-      limit: take = 5,
-      orderBy = 'createdAt',
+      limit: take = 10,
+      orderBy = 'name',
       sortBy = 'asc',
       filters
     } = data;
 
     let where = null;
     if (filters) {
-      const availableFilterFields = ['name','document','hiredAt'];
+      const availableFilterFields = ['name','document'];
       const query = Object.keys(filters).map(key => {
         if (!availableFilterFields.includes(key)) throw new ApplicationError('Apenas os parâmetros name, document e hiredAt podem ser usados', 401);
 
@@ -50,25 +50,25 @@ export class EmployeesRepository implements IEmployeesRepository {
       where = { OR: query };
     }
 
-    const skip = (page - 1) * take;
+    const skip = (page! - 1) * take!;
     const employees = await this.prisma.employee.findMany({
       take,
       skip,
-      orderBy: { [orderBy]: sortBy },
+      orderBy: { [orderBy!]: sortBy },
       ...(where && { where })
     });
     const count = await this.prisma.employee.count({
       ...(where && { where })
     });
-    if (!count) return;
 
-    const datas = employees.map(employee => this._instance(employee));
+    const datas = employees.length > 0 ? employees.map(employee => this._instance(employee)) : [];
+    const pages = count > take! ? count / take! : 1;
+    
     const result = {
       count,
-      pages: count / take,
+      pages,
       datas, 
     }
-
     return result; 
   }
 

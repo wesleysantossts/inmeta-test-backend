@@ -50,8 +50,8 @@ export class EmployeeService implements IEmployeeService {
   }
 
   async delete(id: string): Promise<void> {
-    const documentExists = await this.employeesRepository.find(id);
-    if (!documentExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
+    const employeeExists = await this.employeesRepository.find(id);
+    if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
     
     await this.employeesRepository.delete(id);
   }
