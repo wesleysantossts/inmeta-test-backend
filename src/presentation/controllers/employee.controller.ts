@@ -118,4 +118,23 @@ export class EmployeeController implements IEmployeeController {
       data: null
     })
   }
+
+  async unlinkDocumentTypes(req: Request, res: BaseResponse<any>): Promise<void> {
+    const { id } = req.params;
+    const { documentTypeIds } = req.body;
+    if (!id || !documentTypeIds) throw new ApplicationError('Campos id e documentTypeIds são obrigatórios', 400);
+
+    if (!Array.isArray(documentTypeIds) || !documentTypeIds.length)
+      throw new ApplicationError('O documentTypeIds deve ser uma lista de ids', 400);
+
+    await this.employeeService.unlinkDocumentTypes({
+      id,
+      documentTypeIds,
+    }); 
+    res.status(200).json({
+      result: true,
+      response: 'Colaborador desvinculado dos tipos de documentos com sucesso',
+      data: null
+    })
+  }
 }

@@ -5,6 +5,7 @@ import { DocumentBodyDTO, DocumentQueryParams, DocumentUpdateDTO, IDocumentsRepo
 import { Document } from '@/domain/entities/document.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { PrismaClient } from '@prisma/client';
+import { EmployeeUnlinkDocumentTypesParams } from '@/application/dtos/employee.dto';
 
 export class DocumentsRepository implements IDocumentsRepository {
   private prisma: PrismaClient;
@@ -108,5 +109,14 @@ export class DocumentsRepository implements IDocumentsRepository {
 
   async linkDocumentTypes(data: Omit<Document, 'id'>[]) {
     await this.prisma.document.createMany({ data });
+  }
+
+  async unLinkDocumentTypes(data: EmployeeUnlinkDocumentTypesParams) {
+    await this.prisma.document.deleteMany({
+      where: {
+        employeeId: data.id,
+        documentTypeId: { in: data.documentTypeIds }
+      }
+    });
   }
 }

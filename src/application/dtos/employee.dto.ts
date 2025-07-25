@@ -1,7 +1,6 @@
 import { Employee } from '@/domain/entities/employee.entity';
 import { BaseResponse, IBaseGetAll, IBaseQueryParams } from './base.dto';
 import { Request } from 'express';
-import { Document } from '@/domain/entities/document.entity';
 
 //#region TYPES
 export type EmployeeBodyDTO = Omit<EmployeeDTO, 'id' | 'createdAt' | 'updatedAt'>;
@@ -10,6 +9,11 @@ type AvailableQueryParamsOrderBy = 'name' | 'email';
 
 export type EmployeeLinkDocumentTypesParams = Pick<Employee, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'> & {
   name?: string;
+  documentTypeIds: string[];
+}
+export type EmployeeUnlinkDocumentTypesParams = {
+  /** id do colaborador */
+  id: string;
   documentTypeIds: string[];
 }
 //#endregion
@@ -38,8 +42,10 @@ export interface IEmployeesRepository {
   create: (data: EmployeeBodyDTO) => Promise<Employee>;
   update: (data: EmployeeUpdateDTO) => Promise<Employee>;
   delete: (id: string) => Promise<void>;
+  linkDocumentTypes: (id: Omit<Document, 'id'>) => Promise<void>;
+  unlinkDocumentTypes: (data: EmployeeUnlinkDocumentTypesParams) => Promise<void>;
 }
-export interface IEmployeeService extends IEmployeesRepository {
+export interface IEmployeeService extends Omit<IEmployeesRepository, 'linkDocumentTypes'> {
   linkDocumentTypes: (data: EmployeeLinkDocumentTypesParams) => Promise<void>;
 }
 export interface IEmployeeController {

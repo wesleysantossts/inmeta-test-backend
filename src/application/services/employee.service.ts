@@ -5,7 +5,7 @@ import { EncryptUtils } from '@/shared/utils/encrypt.util';
 import { env } from '@/infrastructure/config/environment';
 import jwt from 'jsonwebtoken';
 import { User } from '@/domain/entities/user.entity';
-import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository } from '../dtos/employee.dto';
+import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUnlinkDocumentTypesParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository } from '../dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
 import { IBaseGetAll } from '../dtos/base.dto';
 import { DocumentsRepository } from '@/infrastructure/repositories/documents.repository';
@@ -90,5 +90,24 @@ export class EmployeeService implements IEmployeeService {
     if (invalidIds.length > 0) throw new ApplicationError(`Documentos não encontrados pelos ids ${invalidIds.join(',')}`, 404)
 
     await this.documentsRepository.linkDocumentTypes(payload);
+  }
+  
+  async unlinkDocumentTypes(data: EmployeeUnlinkDocumentTypesParams): Promise<void> {
+    const {
+      id,
+      documentTypeIds,
+    } = data;
+    
+    const employeeExists = await this.employeesRepository.find(id);
+    if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
+    
+    const invalidIds = []
+    for (const docTypeId of documentTypeIds) {
+      const docType = await this.documentTypesRepository.find(docTypeId);
+      if (!docType) invalidIds.push(docTypeId);
+    }
+    if (invalidIds.length > 0) throw new ApplicationError(`Documentos não encontrados pelos ids ${invalidIds.join(',')}`, 404)
+
+    await this.documentsRepository.unLinkDocumentTypes({ id, documentTypeIds });
   }
 }

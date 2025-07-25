@@ -12,5 +12,6 @@ employeeRoutes.post('/:id/document-types', authMiddleware, async (req, res) => a
 employeeRoutes.get('/:id', authMiddleware, async (req, res) => await EmployeeFactory().find(req, res));
 employeeRoutes.put('/:id', authMiddleware, async (req, res) => await EmployeeFactory().update(req, res));
 employeeRoutes.delete('/:id', authMiddleware, async (req, res) => await EmployeeFactory().delete(req, res));
+employeeRoutes.delete('/:id/document-types', authMiddleware, async (req, res) => await EmployeeFactory().unlinkDocumentTypes(req, res));
 
 export default employeeRoutes;
