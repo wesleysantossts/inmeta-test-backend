@@ -122,7 +122,8 @@ export class DocumentsController implements IDocumentsController {
       filters: {
         ...(Object.keys(filters).length > 0 && filters),
         status: 'PENDENTE',
-      }
+      },
+      include: { employee: true, documentType: true }
     }); 
     res.status(200).json({
       result: true,

@@ -40,7 +40,8 @@ export class DocumentsRepository implements IDocumentsRepository {
       limit: take = 10,
       orderBy = 'name',
       sortBy = 'asc',
-      filters
+      filters,
+      include
     } = data;
 
     let where = null;
@@ -64,13 +65,14 @@ export class DocumentsRepository implements IDocumentsRepository {
       take,
       skip,
       orderBy: { [orderBy!]: sortBy },
-      ...(where && { where })
+      ...(where && { where }),
+      ...(include && { include })
     });
     const count = await this.prisma.document.count({
       ...(where && { where })
     });
 
-    const datas = documents.length > 0 ? documents.map(document => this._instance(document)) : [];
+    const datas = documents.length > 0 ? documents.map(document => ({ ...document, ...this._instance(document)})) : [];
     const pages = Math.ceil(count / take!);
 
     const result = {

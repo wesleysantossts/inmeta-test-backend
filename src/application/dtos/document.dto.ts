@@ -18,6 +18,10 @@ export type DocumentQueryParams = Partial<IBaseQueryParams> & {
     employeeId?: string,
     documentTypeId?: string,
   };
+  include?: {
+    employee?: boolean;
+    documentType?: boolean;
+  }
 } 
 //#endregion
 
