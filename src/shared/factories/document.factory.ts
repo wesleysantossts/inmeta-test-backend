@@ -1,8 +1,8 @@
-import { DocumentsService } from '@/application/services/documents.service';
+import { DocumentsService } from '@/application/services/document.service';
 import { DocumentsRepository } from '@/infrastructure/repositories/documents.repository';
 import { DocumentTypesRepository } from '@/infrastructure/repositories/documentTypes.repository';
 import { EmployeesRepository } from '@/infrastructure/repositories/employees.repository';
-import { DocumentsController } from '@/presentation/controllers/documents.controller';
+import { DocumentsController } from '@/presentation/controllers/document.controller';
 
 export function DocumentFactory() {
   const documentsRepository = new DocumentsRepository();

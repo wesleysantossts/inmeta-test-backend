@@ -31,7 +31,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                AuthData:
                   $ref: '#/components/examples/AuthResponseSignup'
   /auth/signin:
     post:
@@ -50,7 +50,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                AuthData:
                   $ref: '#/components/examples/AuthResponseSignin'
 #endregion
 
@@ -295,7 +295,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentData:
                   $ref: '#/components/examples/DocumentResponseFindAll'
     post:
       summary: Criar documento
@@ -307,12 +307,12 @@ paths:
             schema:
               $ref: "#/components/schemas/DocumentBodyDTO"
       responses:
-        '200':
+        '201':
           description: OK
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentData:
                   $ref: '#/components/examples/DocumentResponseCreate'
   /documents/{id}:
     get:
@@ -329,7 +329,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentData:
                   $ref: '#/components/examples/DocumentResponseFind'
     put:
       summary: Atualizar documento
@@ -350,7 +350,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentData:
                   $ref: '#/components/examples/DocumentResponseUpdate'
     delete:
       summary: Remover documento
@@ -366,7 +366,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentData:
                   $ref: '#/components/examples/DocumentResponseDelete'
 #endregion
 
@@ -394,7 +394,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentTypeData:
                   $ref: '#/components/examples/DocumentTypeResponseFindAll'
     post:
       summary: Criar tipo de documento
@@ -406,12 +406,12 @@ paths:
             schema:
               $ref: "#/components/schemas/DocumentTypeBodyDTO"
       responses:
-        '200':
+        '201':
           description: OK
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentTypeData:
                   $ref: '#/components/examples/DocumentTypeResponseCreate'
   /document-types/{id}:
     get:
@@ -428,7 +428,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentTypeData:
                   $ref: '#/components/examples/DocumentTypeResponseFind'
     put:
       summary: Atualizar tipo de documento
@@ -449,7 +449,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentTypeData:
                   $ref: '#/components/examples/DocumentTypeResponseUpdate'
     delete:
       summary: Remover tipo de documento
@@ -465,7 +465,7 @@ paths:
           content:
             application/json:
               examples:
-                EmployeeData:
+                DocumentTypeData:
                   $ref: '#/components/examples/DocumentTypeResponseDelete'
 #endregion
 

@@ -64,7 +64,7 @@ export class DocumentsController implements IDocumentsController {
       createdBy: userId,
       updatedBy: userId,
     }); 
-    res.status(200).json({
+    res.status(201).json({
       result: true,
       response: 'Documento criado com sucesso',
       data

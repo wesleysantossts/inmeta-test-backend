@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { authMiddleware } from '../middlewares/auth.middleware';
-import { DocumentTypesFactory } from '@/shared/factories/documentTypes.factory';
+import { DocumentTypesFactory } from '@/shared/factories/documentType.factory';
 
 // /document-types
 const documentTypesRoutes = express.Router();

@@ -62,7 +62,7 @@ export class DocumentTypeController implements IDocumentTypeController {
       createdBy: userId,
       updatedBy: userId,
     }); 
-    res.status(200).json({
+    res.status(201).json({
       result: true,
       response: 'Tipo de documento criado com sucesso',
       data
