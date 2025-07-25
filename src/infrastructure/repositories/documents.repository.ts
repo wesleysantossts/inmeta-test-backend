@@ -1,10 +1,10 @@
+import { PrismaClient } from '@prisma/client';
 import { validate as isUUID } from 'uuid';
 
 import { IBaseGetAll } from '@/application/dtos/base.dto';
 import { DocumentBodyDTO, DocumentQueryParams, DocumentUpdateDTO, IDocumentsRepository } from '@/application/dtos/document.dto';
 import { Document } from '@/domain/entities/document.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
-import { PrismaClient } from '@prisma/client';
 import { EmployeeUnlinkDocumentTypesParams } from '@/application/dtos/employee.dto';
 
 export class DocumentsRepository implements IDocumentsRepository {

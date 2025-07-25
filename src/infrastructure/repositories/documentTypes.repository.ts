@@ -1,9 +1,8 @@
-import { DocumentBodyDTO, DocumentQueryParams, DocumentUpdateDTO, IDocumentsRepository } from '@/application/dtos/document.dto';
+import { PrismaClient } from '@prisma/client';
+
 import { DocumentTypeBodyDTO, DocumentTypeQueryParams, DocumentTypeUpdateDTO, IDocumentTypesRepository } from '@/application/dtos/documentType.dto';
-import { Document } from '@/domain/entities/document.entity';
 import { DocumentType } from '@/domain/entities/documentType.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
-import { PrismaClient } from '@prisma/client';
 
 export class DocumentTypesRepository implements IDocumentTypesRepository {
   private prisma: PrismaClient;

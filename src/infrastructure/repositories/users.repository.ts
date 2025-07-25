@@ -1,7 +1,8 @@
+import { PrismaClient } from '@prisma/client';
+
 import { IUserQueryParams, IUsersRepository, UserBodyDTO, UserUpdateDTO } from '@/application/dtos/user.dto';
 import { User } from '@/domain/entities/user.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
-import { PrismaClient } from '@prisma/client';
 
 export class UsersRepository implements IUsersRepository {
   private prisma: PrismaClient;

@@ -38,7 +38,6 @@ export interface IBaseGetAll<T> {
   pages: number;
   datas: T;
 }
-
 export interface AppError extends Error {
   statusCode?: number;
   isOperational?: boolean;

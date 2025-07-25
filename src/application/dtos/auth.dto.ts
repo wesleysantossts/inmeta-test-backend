@@ -1,7 +1,7 @@
 import { User } from '@/domain/entities/user.entity';
-import { BaseResponse, IBaseQueryParams } from './base.dto';
+import { BaseResponse } from './base.dto';
 import { UserBodyDTO } from './user.dto';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 //#region TYPES
 export type SignInParams = Omit<UserBodyDTO, 'name'>;

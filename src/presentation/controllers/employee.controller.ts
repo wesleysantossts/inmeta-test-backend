@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { BaseResponse, IBaseGetAll } from '@/application/dtos/base.dto';
 import { ApplicationError } from '@/shared/errors/application.error';

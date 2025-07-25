@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { DocumentType } from '@/domain/entities/documentType.entity';
 import { BaseResponse, IBaseGetAll, IBaseQueryParams } from './base.dto';
@@ -8,6 +8,14 @@ export type AvailableDocumentType = 'cpf' | 'cnpj';
 export type DocumentTypeBodyDTO = Omit<DocumentTypeDTO, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
 export type DocumentTypeUpdateDTO = Partial<DocumentTypeBodyDTO> & { id: string };
 type AvailableQueryParamsOrderBy = 'name';
+
+export type DocumentTypeQueryParamsSortBy = Pick<IBaseQueryParams, 'sortBy'> & 'name';
+export type DocumentTypeQueryParams = Partial<IBaseQueryParams> & {
+  orderBy?: IBaseQueryParams['orderBy'] & AvailableQueryParamsOrderBy;
+  filters?: {
+    name?: string,
+  };
+}
 //#endregion
 
 //#region INTERFACES
@@ -19,13 +27,7 @@ export interface DocumentTypeDTO {
   createdBy: string;
   updatedBy: string;
 }
-export type DocumentTypeQueryParamsSortBy = Pick<IBaseQueryParams, 'sortBy'> & 'name';
-export type DocumentTypeQueryParams = Partial<IBaseQueryParams> & {
-  orderBy?: IBaseQueryParams['orderBy'] & AvailableQueryParamsOrderBy;
-  filters?: {
-    name?: string,
-  };
-} 
+
 export interface IDocumentTypesRepository {
   find: (id: string) => Promise<DocumentType | undefined>;
   findAll: (params: DocumentTypeQueryParams) => Promise<IBaseGetAll<DocumentType[]>>;

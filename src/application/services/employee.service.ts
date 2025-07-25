@@ -1,5 +1,15 @@
 import { ApplicationError } from '@/shared/errors/application.error';
-import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUnlinkDocumentTypesParams, EmployeeUpdateDTO, IEmployeeSendDocument, IEmployeeService, IEmployeesRepository, IFindEmployeeDocumentStatusResponse } from '../dtos/employee.dto';
+import {
+  EmployeeBodyDTO, 
+  EmployeeLinkDocumentTypesParams,
+  EmployeeQueryParams, 
+  EmployeeUnlinkDocumentTypesParams, 
+  EmployeeUpdateDTO, 
+  IEmployeeSendDocument, 
+  IEmployeeService, 
+  IEmployeesRepository, 
+  IFindEmployeeDocumentStatusResponse 
+} from '../dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
 import { Document } from '@/domain/entities/document.entity';
 import { IBaseGetAll } from '../dtos/base.dto';

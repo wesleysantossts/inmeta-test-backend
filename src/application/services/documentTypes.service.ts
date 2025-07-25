@@ -1,5 +1,11 @@
 import { ApplicationError } from '@/shared/errors/application.error';
-import { DocumentTypeBodyDTO, DocumentTypeQueryParams, DocumentTypeUpdateDTO, IDocumentTypeService, IDocumentTypesRepository } from '../dtos/documentType.dto';
+import { 
+  DocumentTypeBodyDTO, 
+  DocumentTypeQueryParams, 
+  DocumentTypeUpdateDTO, 
+  IDocumentTypeService, 
+  IDocumentTypesRepository 
+} from '../dtos/documentType.dto';
 import { DocumentType } from '@/domain/entities/documentType.entity';
 import { IBaseGetAll } from '../dtos/base.dto';
 

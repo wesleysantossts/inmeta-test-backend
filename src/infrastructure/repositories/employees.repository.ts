@@ -1,7 +1,8 @@
+import { PrismaClient } from '@prisma/client';
+
 import { EmployeeBodyDTO, EmployeeQueryParams, EmployeeUpdateDTO, IEmployeesRepository } from '@/application/dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
-import { PrismaClient } from '@prisma/client';
 
 export class EmployeesRepository implements IEmployeesRepository {
   private prisma: PrismaClient;

@@ -1,9 +1,10 @@
+import jwt from 'jsonwebtoken';
+
 import { ApplicationError } from '@/shared/errors/application.error';
 import { IAuthResponse, IAuthService, SignInParams } from '../dtos/auth.dto';
 import { IUsersRepository, UserBodyDTO } from '../dtos/user.dto';
 import { EncryptUtils } from '@/shared/utils/encrypt.util';
 import { env } from '@/infrastructure/config/environment';
-import jwt from 'jsonwebtoken';
 import { User } from '@/domain/entities/user.entity';
 
 export class AuthService implements IAuthService {

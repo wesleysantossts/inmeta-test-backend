@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { IAuthController, IAuthResponse, IAuthService } from '@/application/dtos/auth.dto';
 import { BaseResponse } from '@/application/dtos/base.dto';

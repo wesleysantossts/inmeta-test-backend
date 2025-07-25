@@ -57,11 +57,10 @@ export interface IEmployeesRepository {
   create: (data: EmployeeBodyDTO) => Promise<Employee>;
   update: (data: EmployeeUpdateDTO) => Promise<Employee>;
   delete: (id: string) => Promise<void>;
-  linkDocumentTypes: (id: Omit<Document, 'id'>) => Promise<void>;
-  unlinkDocumentTypes: (data: EmployeeUnlinkDocumentTypesParams) => Promise<void>;
 }
-export interface IEmployeeService extends Omit<IEmployeesRepository, 'linkDocumentTypes'> {
+export interface IEmployeeService extends IEmployeesRepository {
   linkDocumentTypes: (data: EmployeeLinkDocumentTypesParams) => Promise<void>;
+  unlinkDocumentTypes: (data: EmployeeUnlinkDocumentTypesParams) => Promise<void>;
   findEmployeeDocumentStatus: (id: string) => Promise<IBaseGetAll<Document[] | IFindEmployeeDocumentStatusResponse>>;
   sendDocument: (data: IEmployeeSendDocument) => Promise<Document>;
 }
