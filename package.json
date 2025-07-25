@@ -4,7 +4,7 @@
   "description": "Desafio técnico para a empresa InMeta",
   "main": "index.js",
   "scripts": {
-    "start": "node -r dotenv/config ./dist/main/app.js",
+    "start": "ts-node -r dotenv/config -r tsconfig-paths/register --transpile-only src/main/app.ts",
     "dev": "nodemon",
     "build": "tsc --build",
     "test": "jest",
