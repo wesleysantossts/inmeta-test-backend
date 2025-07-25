@@ -62,7 +62,7 @@ export class EmployeesRepository implements IEmployeesRepository {
     });
 
     const datas = employees.length > 0 ? employees.map(employee => this._instance(employee)) : [];
-    const pages = count > take! ? count / take! : 1;
+    const pages = Math.ceil(count / take!);
     
     const result = {
       count,

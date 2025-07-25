@@ -64,7 +64,7 @@ export class DocumentsRepository implements IDocumentsRepository {
     });
 
     const datas = documents.length > 0 ? documents.map(document => this._instance(document)) : [];
-    const pages = count > take! ? count / take! : 1;
+    const pages = Math.ceil(count / take!);
 
     const result = {
       count,

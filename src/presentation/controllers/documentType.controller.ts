@@ -43,7 +43,7 @@ export class DocumentTypeController implements IDocumentTypeController {
       ...req.query,
       page: Number(page),
       limit: Number(limit),
-      filters
+      ...(filters && { filters })
     }); 
     res.status(200).json({
       result: true,

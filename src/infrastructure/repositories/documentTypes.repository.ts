@@ -64,7 +64,7 @@ export class DocumentTypesRepository implements IDocumentTypesRepository {
     const datas = documentTypes.length > 0 ? 
       documentTypes.map(documentType => this._instance(documentType)) 
       : [];
-    const pages = count > take! ? count / take! : 1;
+    const pages = Math.ceil(count / take!)
 
     const result = {
       count,

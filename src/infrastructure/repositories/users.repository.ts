@@ -62,7 +62,7 @@ export class UsersRepository implements IUsersRepository {
     });
 
     const datas = users.length > 0 ? users.map(user => this._instance(user)) : [];
-    const pages = count > take! ? count / take! : 1;
+    const pages = Math.ceil(count / take!);
 
     const result = {
       count,
