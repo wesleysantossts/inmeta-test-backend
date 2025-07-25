@@ -1,5 +1,5 @@
-import { DocumentTypeService } from '@/application/services/documentType.service';
-import { DocumentTypesRepository } from '@/infrastructure/repositories/documentType.repository';
+import { DocumentTypeService } from '@/application/services/documentTypes.service';
+import { DocumentTypesRepository } from '@/infrastructure/repositories/documentTypes.repository';
 import { DocumentTypeController } from '@/presentation/controllers/documentType.controller';
 
 export function DocumentTypesFactory() {

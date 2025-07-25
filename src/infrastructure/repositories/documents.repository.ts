@@ -1,3 +1,4 @@
+import { IBaseGetAll } from '@/application/dtos/base.dto';
 import { DocumentBodyDTO, DocumentQueryParams, DocumentUpdateDTO, IDocumentsRepository } from '@/application/dtos/document.dto';
 import { Document } from '@/domain/entities/document.entity';
 import { ApplicationError } from '@/shared/errors/application.error';
@@ -23,14 +24,14 @@ export class DocumentsRepository implements IDocumentsRepository {
     });
   }
 
-  async find(id: string) {
+  async find(id: string): Promise<Document | undefined> {
     const document = await this.prisma.document.findUnique({ where: { id }});
     if (!document) return;
 
     return this._instance(document);
   }
 
-  async findAll(data: DocumentQueryParams) {
+  async findAll(data: DocumentQueryParams): Promise<IBaseGetAll<Document[]>> {
     const {
       page = 1,
       limit: take = 5,
@@ -41,7 +42,7 @@ export class DocumentsRepository implements IDocumentsRepository {
 
     let where = null;
     if (filters) {
-      const availableFilterFields = ['name'];
+      const availableFilterFields = ['name', 'status', 'employeeId', 'documentTypeId'];
       const query = Object.keys(filters).map(key => {
         if (!availableFilterFields.includes(key)) throw new ApplicationError('Apenas o parâmetro name pode ser usado', 401);
 
@@ -61,24 +62,23 @@ export class DocumentsRepository implements IDocumentsRepository {
     const count = await this.prisma.document.count({
       ...(where && { where })
     });
-    if (!count) return;
 
-    const datas = documents.map(document => this._instance(document));
+    const datas = documents.length > 0 ? documents.map(document => this._instance(document)) : [];
     const result = {
       count,
-      pages: count / take,
+      pages: count > 0 ? count / take : count,
       datas, 
     }
 
     return result; 
   }
 
-  async create(data: DocumentBodyDTO) {
+  async create(data: DocumentBodyDTO): Promise<Document> {
     const result = await this.prisma.document.create({ data });
     return this._instance(result);
   }
 
-  async update(data: DocumentUpdateDTO) {
+  async update(data: DocumentUpdateDTO): Promise<Document> {
     const foundDocument = await this.find(data.id);
     if (!foundDocument) throw new ApplicationError('Documento não encontrado pelo id', 404);
 
@@ -95,10 +95,7 @@ export class DocumentsRepository implements IDocumentsRepository {
     return this._instance(updatedDocument);
   }
 
-  async delete(id: string) {
-    const foundDocument = await this.find(id);
-    if (!foundDocument) throw new ApplicationError('Documento não encontrado pelo id', 404);
-
+  async delete(id: string): Promise<void> {
     await this.prisma.document.delete({ where: { id } });
   }
 }
