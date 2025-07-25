@@ -174,7 +174,7 @@ export class EmployeeService implements IEmployeeService {
       }
     })).datas;
     const foundDocument = employeeRegisteredDocuments.find(doc => doc.documentTypeId === documentTypeId);
-    if (!foundDocument) throw new ApplicationError('Documento não não vinculado ao colaborador', 404);
+    if (!foundDocument) throw new ApplicationError('Documento não vinculado ao colaborador', 404);
     if (foundDocument.status !== 'PENDENTE') throw new ApplicationError('Documento já foi enviado', 404);
 
     const payload = {

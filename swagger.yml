@@ -12,6 +12,8 @@ security:
   - BearerAuth: []
   
 paths:
+
+#region AUTH
   /auth/signup:
     post:
       summary: Cadastrar usuário
@@ -50,6 +52,9 @@ paths:
               examples:
                 EmployeeData:
                   $ref: '#/components/examples/AuthResponseSignin'
+#endregion
+
+#region EMPLOYEES
   /employees:
     get:
       summary: Listar colaboradores
@@ -58,8 +63,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SortOrderParam'
-        - $ref: '#/components/parameters/SortByEmployeeParam'
+        - $ref: '#/components/parameters/SortByParam'
+        - $ref: '#/components/parameters/OrderByEmployeeParam'
       responses:
         '200':
           description: OK
@@ -132,14 +137,105 @@ paths:
           name: id
           required: true
       responses:
-        '204':
+        '200':
           description: OK
           content:
             application/json:
               examples:
                 EmployeeData:
                   $ref: '#/components/examples/EmployeeResponseDelete'
-  
+  /employees/{id}/document-status:
+    get:
+      summary: Listar status da documentação de um colaborador
+      description: Obter o status da documentação de um colaborador específico, mostrando quais foram enviados e quais ainda estão pendentes de envio
+      tags:
+        - Colaboradores
+      parameters:
+        - in: path
+          name: id
+          description: id do colaborador
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeDocumentStatusResponse'
+  /employees/{id}/document-types:
+    post:
+      summary: Vincular um colaborador com tipos de documentos
+      description: É possível vincular mais de um tipo de documento por vez
+      tags:
+        - Colaboradores
+      parameters:
+        - in: path
+          name: id
+          description: id do colaborador
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeBodyLinkDocumentTypesDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeLinkDocumentTypesResponse'
+    delete:
+      summary: Desvincular um colaborador com tipos de documentos
+      description: É possível desvincular mais de um tipo de documento por vez
+      tags:
+        - Colaboradores
+      parameters:
+        - in: path
+          name: id
+          description: id do colaborador
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeBodyLinkDocumentTypesDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeUnlinkDocumentTypesResponse'
+  /employees/{id}/documents:
+    post:
+      summary: Enviar um documento relacionado ao tipo de documento e ao colaborador
+      tags:
+        - Colaboradores
+      parameters:
+        - in: path
+          name: id
+          description: id do colaborador
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeBodySendDocumentsDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/EmployeeSendDocumentResponse'
+#endregion
+
+#region DOCUMENTS
   /documents:
     get:
       summary: Listar documentos
@@ -229,7 +325,9 @@ paths:
               examples:
                 EmployeeData:
                   $ref: '#/components/examples/DocumentResponseDelete'
+#endregion
 
+#region DOCUMENT TYPES
   /document-types:
     get:
       summary: Listar tipos de documento
@@ -319,10 +417,11 @@ paths:
               examples:
                 EmployeeData:
                   $ref: '#/components/examples/DocumentTypeResponseDelete'
+#endregion
 
 tags:
   - name: Autenticação
-    description: Gestão de acesso  
+    description: Gestão de acessos  
   - name: Colaboradores
     description: Gestão de colaboradores  
   - name: Documentos
@@ -334,31 +433,28 @@ x-employee-data: &employee_data
   id: a81bc81b-dead-4e5d-abff-90865d1e13b1
   name: Wesley Santos
   document: '1234567891'
-  hiredAt: '2024-07-22 14:30:45.123'
+  hiredAt: '2024-07-22'
   createdAt: '2024-07-22 14:30:45.123'
   updatedAt: '2024-07-22 14:30:45.123'
-  createdBy: '2024-07-22 14:30:45.123'
-  updatedBy: '2024-07-22 14:30:45.123'
+  createdBy: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  updatedBy: a81bc81b-dead-4e5d-abff-90865d1e13b1
 x-document-type-data: &document_type_data
   id: a81bc81b-dead-4e5d-abff-90865d1e13b1
   name: cpf
   createdAt: '2024-07-22 14:30:45.123'
   updatedAt: '2024-07-22 14:30:45.123'
-  createdBy: '2024-07-22 14:30:45.123'
-  updatedBy: '2024-07-22 14:30:45.123'
+  createdBy: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  updatedBy: a81bc81b-dead-4e5d-abff-90865d1e13b1
 x-document-data: &document_data
   id: a81bc81b-dead-4e5d-abff-90865d1e13b1
-  name: cpf
+  name: cpf.pdf
   status: ENVIADO
   employeeId: a81bc81b-dead-4e5d-abff-90865d1e13b1
   documentTypeId: a81bc81b-dead-4e5d-abff-90865d1e13b1
   createdAt: '2024-07-22 14:30:45.123'
   updatedAt: '2024-07-22 14:30:45.123'
-  createdBy: '2024-07-22 14:30:45.123'
-  updatedBy: '2024-07-22 14:30:45.123'
-x-pagination-data: &pagination_data
-  count: 100
-  pages: 10
+  createdBy: a81bc81b-dead-4e5d-abff-90865d1e13b1
+  updatedBy: a81bc81b-dead-4e5d-abff-90865d1e13b1
 
 components:
   
@@ -390,7 +486,7 @@ components:
           required: true
         document:
           type: string
-          example: '1234567891'
+          example: '12345678911'
         hiredAt:
           type: string
           example: '23/07/2025'
@@ -406,6 +502,29 @@ components:
         hiredAt:
           type: string
           example: '23/07/2025'
+    EmployeeBodyLinkDocumentTypesDTO:
+      type: object
+      properties:
+        documentTypeIds: 
+          type: array
+          items:
+            type: string
+            description: Id dos tipos de documento
+            example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            required: true
+          
+        
+    EmployeeBodySendDocumentsDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: cpf.pdf
+          required: true
+        documentTypeId:
+          type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+          required: true
 
     DocumentTypeDTO:
       allOf:
@@ -614,29 +733,55 @@ components:
       value:
         result: true
         response: Colaborador encontrado com sucesso
+        data: *employee_data
+    EmployeeDocumentStatusResponse:
+      summary: Colaborador
+      value:
+        result: true
+        response: Status do colaborador encontrado com sucesso
         data:
-          datas: *employee_data
+          count: 100
+          pages: 1 
+          datas:
+            employeeId: a81bc81b-dead-4e5d-abff-90865d1e13b1
+            documents: 
+              - *document_data
+    EmployeeLinkDocumentTypesResponse:
+      summary: Colaborador
+      value:
+        result: true
+        response: Colaborador vinculado aos tipos de documentos com sucesso
+        data: null
+    EmployeeUnlinkDocumentTypesResponse:
+      summary: Colaborador
+      value:
+        result: true
+        response: Colaborador desvinculado dos tipos de documentos com sucesso
+        data: null
+    EmployeeSendDocumentResponse:
+      summary: Colaborador
+      value:
+        result: true
+        response: Documento do colaborador enviado com sucesso
+        data: *document_data
     EmployeeResponseCreate:
       summary: Colaborador
       value:
         result: true
         response: Colaborador criado com sucesso
-        data:
-          datas: *employee_data
+        data: *employee_data
     EmployeeResponseUpdate:
       summary: Colaborador
       value:
         result: true
         response: Colaborador atualizado com sucesso
-        data:
-          datas: *employee_data
+        data: *employee_data
     EmployeeResponseDelete:
       summary: Colaborador
       value:
         result: true
         response: Colaborador removido com sucesso
-        data:
-          datas: *employee_data
+        data: null
     
     DocumentResponseFindAll:
       summary: Documentos
@@ -743,8 +888,8 @@ components:
         default: 10
       example: 10
 
-    SortOrderParam:
-      name: sortOrder
+    SortByParam:
+      name: sortBy
       in: query
       description: Direção da ordenação
       required: false
@@ -754,18 +899,18 @@ components:
         default: desc
       example: desc
 
-    SortByEmployeeParam:
-      name: sortBy
+    OrderByEmployeeParam:
+      name: orderBy
       in: query
       description: Campo da ordenação
       required: false
       schema:
         type: string
-        enum: [name, document,hiredAt,createdAt,updatedAt]
+        enum: [name,createdAt]
         default: createdAt
       example: createdAt
 
-    SortByDocumentTypeParam:
+    OrderByDocumentTypeParam:
       name: sortBy
       in: query
       description: Campo da ordenação

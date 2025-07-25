@@ -32,7 +32,7 @@ export class EmployeeController implements IEmployeeController {
       ...filters
     } = req.query;
 
-    const availableOrderBy = ['name'];
+    const availableOrderBy = ['name', 'createdAt'];
     const availableFilters = ['name','document'];
     
     if (orderBy && !availableOrderBy.includes(String(orderBy))) 
@@ -142,7 +142,6 @@ export class EmployeeController implements IEmployeeController {
   async findEmployeeDocumentStatus(req: Request, res: BaseResponse<any>): Promise<void> {
     const { id } = req.params;
     if (!id) throw new ApplicationError('O id é obrigatório', 400);
-
 
     const data = await this.employeeService.findEmployeeDocumentStatus(id); 
     res.status(200).json({
