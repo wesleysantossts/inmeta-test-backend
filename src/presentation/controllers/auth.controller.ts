@@ -26,7 +26,7 @@ export class AuthController implements IAuthController {
     if (!email || !password) throw new ApplicationError('Campos email e password são obrigatórios', 400);
 
     const data = await this.authService.signIn(req.body); 
-    res.status(201).json({
+    res.status(200).json({
       result: true,
       response: 'Usuário logado com sucesso',
       data

@@ -12,6 +12,44 @@ security:
   - BearerAuth: []
   
 paths:
+  /auth/signup:
+    post:
+      summary: Cadastrar usuário
+      tags:
+        - Autenticação
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserBodyDTO"
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/AuthResponseSignup'
+  /auth/signin:
+    post:
+      summary: Realizar o login do usuário
+      tags:
+        - Autenticação
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserBodySignInDTO"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                EmployeeData:
+                  $ref: '#/components/examples/AuthResponseSignin'
   /employees:
     get:
       summary: Listar colaboradores
@@ -283,6 +321,8 @@ paths:
                   $ref: '#/components/examples/DocumentTypeResponseDelete'
 
 tags:
+  - name: Autenticação
+    description: Gestão de acesso  
   - name: Colaboradores
     description: Gestão de colaboradores  
   - name: Documentos
@@ -445,6 +485,33 @@ components:
           documentTypeId:
             type: string
             example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+    
+    UserBodyDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Wesley Santos
+          required: true
+        email:
+          type: string 
+          example: teste@teste.com.br
+          required: true
+        password:
+          type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+          required: true
+    UserBodySignInDTO:
+      type: object
+      properties:
+        email:
+          type: string 
+          example: teste@teste.com.br
+          required: true
+        password:
+          type: string
+          example: a81bc81b-dead-4e5d-abff-90865d1e13b1
+          required: true
 
     BaseAuditFieldsDTO:
       type: object
@@ -516,6 +583,22 @@ components:
     
     #region RESPONSES 
     #OK
+    AuthResponseSignup:
+      summary: Autenticação
+      value:
+        result: true
+        response: Usuário cadastrado com sucesso
+        data: 
+          user: *employee_data
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzOTQwYzUzMC1lYTBlLTQ3NTItYWFlNy03YzY2Y2EzNzE4NGYiLCJlbWFpbCI6InRlc3RlMkB0ZXN0ZS5jb20uYnIiLCJpYXQiOjE3NTM0MzkyMjYsImV4cCI6MTc1NDA0NDAyNn0.oupqg3hWbpoWCiBoPFsFhqR_VP0VFsNoLJlPc6A_eDk
+    AuthResponseSignin:
+      summary: Autenticação
+      value:
+        result: true
+        response: Usuário logado com sucesso
+        data: 
+          user: *employee_data
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzOTQwYzUzMC1lYTBlLTQ3NTItYWFlNy03YzY2Y2EzNzE4NGYiLCJlbWFpbCI6InRlc3RlMkB0ZXN0ZS5jb20uYnIiLCJpYXQiOjE3NTM0MzkyMjYsImV4cCI6MTc1NDA0NDAyNn0.oupqg3hWbpoWCiBoPFsFhqR_VP0VFsNoLJlPc6A_eDk
     EmployeeResponseFindAll:
       summary: Colaboradores
       value:
