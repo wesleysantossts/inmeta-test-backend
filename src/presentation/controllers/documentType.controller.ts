@@ -26,7 +26,7 @@ export class DocumentTypeController implements IDocumentTypeController {
     const {
       limit = 10,
       page = 1,
-      orderBy = 'createdAt',
+      orderBy = 'name',
       sortBy = 'asc',
       ...filters
     } = req.query;
@@ -62,7 +62,7 @@ export class DocumentTypeController implements IDocumentTypeController {
       createdBy: userId,
       updatedBy: userId,
     }); 
-    res.status(201).json({
+    res.status(200).json({
       result: true,
       response: 'Tipo de documento criado com sucesso',
       data

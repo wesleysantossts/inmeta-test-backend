@@ -379,8 +379,15 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/OrderByParam'
-        - $ref: '#/components/parameters/SortByDocumentTypeParam'
+        - $ref: '#/components/parameters/OrderByDocumentTypeParam'
+        - $ref: '#/components/parameters/SortByParam'
+        - name: name
+          in: query
+          description: Filtro da busca
+          required: false
+          schema:
+            type: string
+          example: CNPJ
       responses:
         '200':
           description: OK
@@ -399,7 +406,7 @@ paths:
             schema:
               $ref: "#/components/schemas/DocumentTypeBodyDTO"
       responses:
-        '201':
+        '200':
           description: OK
           content:
             application/json:
@@ -453,7 +460,7 @@ paths:
           name: id
           required: true
       responses:
-        '204':
+        '200':
           description: OK
           content:
             application/json:
@@ -586,7 +593,6 @@ components:
       properties:
         name:
           type: string
-          enum: [cpf,cnpj]
           example: cpf
           required: true
 
@@ -877,29 +883,25 @@ components:
       value:
         result: true
         response: Tipo de documento encontrado com sucesso
-        data:
-          datas: *document_type_data
+        data: *document_type_data
     DocumentTypeResponseCreate:
       summary: Tipo de documento
       value:
         result: true
         response: Tipo de documento criado com sucesso
-        data:
-          datas: *document_type_data
+        data: *document_type_data
     DocumentTypeResponseUpdate:
       summary: Tipo de documento
       value:
         result: true
         response: Tipo de documento atualizado com sucesso
-        data:
-          datas: *document_type_data
+        data: *document_type_data
     DocumentTypeResponseDelete:
       summary: Tipo de documento
       value:
         result: true
         response: Tipo de documento removido com sucesso
-        data:
-          datas: *document_type_data
+        data: null
     # ERROS
     #endregion
 
@@ -951,15 +953,14 @@ components:
       example: createdAt
 
     OrderByDocumentTypeParam:
-      name: sortBy
+      name: orderBy
       in: query
       description: Campo da ordenação
       required: false
       schema:
         type: string
-        enum: [name,createdAt,updatedAt]
-        default: createdAt
-      example: createdAt
+        enum: [name]
+      example: name
 
     OrderByDocumentParam:
       name: orderBy
