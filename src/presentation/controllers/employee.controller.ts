@@ -93,4 +93,29 @@ export class EmployeeController implements IEmployeeController {
       data: null
     })
   }
+
+  async linkDocumentTypes(req: Request, res: BaseResponse<any>): Promise<void> {
+    const { id: userId } = req.user!;
+    const { id } = req.params;
+    const { documentTypeIds } = req.body;
+    if (!id || !documentTypeIds) throw new ApplicationError('Campos id e documentTypeIds são obrigatórios', 400);
+
+    if (!Array.isArray(documentTypeIds) || !documentTypeIds.length)
+      throw new ApplicationError('O documentTypeIds deve ser uma lista de ids', 400);
+
+    const now = new Date()
+    await this.employeeService.linkDocumentTypes({
+      ...req.body,
+      id,
+      createdAt: now,
+      updatedAt: now,
+      createdBy: userId,
+      updatedBy: userId,
+    }); 
+    res.status(200).json({
+      result: true,
+      response: 'Colaborador vinculado aos tipos de documentos com sucesso',
+      data: null
+    })
+  }
 }

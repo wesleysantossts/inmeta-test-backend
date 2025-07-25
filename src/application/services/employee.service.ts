@@ -5,13 +5,18 @@ import { EncryptUtils } from '@/shared/utils/encrypt.util';
 import { env } from '@/infrastructure/config/environment';
 import jwt from 'jsonwebtoken';
 import { User } from '@/domain/entities/user.entity';
-import { EmployeeBodyDTO, EmployeeQueryParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository } from '../dtos/employee.dto';
+import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository } from '../dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
 import { IBaseGetAll } from '../dtos/base.dto';
+import { DocumentsRepository } from '@/infrastructure/repositories/documents.repository';
+import { DocumentStatus } from '../dtos/document.dto';
+import { DocumentTypesRepository } from '@/infrastructure/repositories/documentTypes.repository';
 
 export class EmployeeService implements IEmployeeService {
   constructor(
     private employeesRepository: IEmployeesRepository,
+    private documentsRepository: DocumentsRepository,
+    private documentTypesRepository: DocumentTypesRepository
   ) {}
 
   async find(id: string): Promise<Employee> {
@@ -54,5 +59,36 @@ export class EmployeeService implements IEmployeeService {
     if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
     
     await this.employeesRepository.delete(id);
+  }
+
+  async linkDocumentTypes(data: EmployeeLinkDocumentTypesParams): Promise<void> {
+    const {
+      id,
+      documentTypeIds,
+      name = "",
+      ...rest
+    } = data;
+    
+    const employeeExists = await this.employeesRepository.find(id);
+    if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
+    
+    const invalidIds = []
+    let payload = []
+    for (const docTypeId of documentTypeIds) {
+      const docType = await this.documentTypesRepository.find(docTypeId);
+      if (!docType) invalidIds.push(docTypeId);
+
+      const obj = {
+        employeeId: id,
+        documentTypeId: docTypeId,
+        status: "PENDENTE" as DocumentStatus,
+        name,
+        ...rest
+      };
+      payload.push(obj);
+    }
+    if (invalidIds.length > 0) throw new ApplicationError(`Documentos não encontrados pelos ids ${invalidIds.join(',')}`, 404)
+
+    await this.documentsRepository.linkDocumentTypes(payload);
   }
 }

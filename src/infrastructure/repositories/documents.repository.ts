@@ -1,3 +1,5 @@
+import { validate as isUUID } from 'uuid';
+
 import { IBaseGetAll } from '@/application/dtos/base.dto';
 import { DocumentBodyDTO, DocumentQueryParams, DocumentUpdateDTO, IDocumentsRepository } from '@/application/dtos/document.dto';
 import { Document } from '@/domain/entities/document.entity';
@@ -33,10 +35,10 @@ export class DocumentsRepository implements IDocumentsRepository {
 
   async findAll(data: DocumentQueryParams): Promise<IBaseGetAll<Document[]>> {
     const {
-      page,
-      limit: take,
-      orderBy,
-      sortBy,
+      page = 1,
+      limit: take = 10,
+      orderBy = 'name',
+      sortBy = 'asc',
       filters
     } = data;
 
@@ -45,8 +47,12 @@ export class DocumentsRepository implements IDocumentsRepository {
       const availableFilterFields = ['name', 'status', 'employeeId', 'documentTypeId'];
       const query = Object.keys(filters).map(key => {
         if (!availableFilterFields.includes(key)) throw new ApplicationError('Apenas o parâmetro name pode ser usado', 401);
+        
+        const value = (filters as Record<string, any>)[key];
+        if (typeof value === 'string' && isUUID(value)) return { [key]: value };
 
         return { [key]: { contains: (filters as Record<string, any>)[key], mode: 'insensitive' }}
+        
       })
 
       where = { OR: query };
@@ -98,5 +104,9 @@ export class DocumentsRepository implements IDocumentsRepository {
 
   async delete(id: string): Promise<void> {
     await this.prisma.document.delete({ where: { id } });
+  }
+
+  async linkDocumentTypes(data: Omit<Document, 'id'>[]) {
+    await this.prisma.document.createMany({ data });
   }
 }

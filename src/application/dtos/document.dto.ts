@@ -4,7 +4,7 @@ import { Document } from '@/domain/entities/document.entity';
 import { BaseResponse, IBaseGetAll, IBaseQueryParams } from './base.dto';
 
 //#region TYPES
-export type DocumentStatus = 'ENVIADO' | 'PENDENTE';
+export type DocumentStatus = 'ENVIADO' | 'PENDENTE' | 'APROVADO' | 'REJEITADO';
 export type DocumentBodyDTO = Omit<DocumentDTO, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
 export type DocumentUpdateDTO = Partial<DocumentBodyDTO> & { id: string };
 type AvailableQueryParamsOrderBy = 'name' | 'status';

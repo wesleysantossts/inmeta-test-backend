@@ -8,6 +8,7 @@ const employeeRoutes = express.Router();
 
 employeeRoutes.get('/', authMiddleware, async (req, res) => await EmployeeFactory().findAll(req, res));
 employeeRoutes.post('/', authMiddleware, async (req, res) => await EmployeeFactory().create(req, res));
+employeeRoutes.post('/:id/document-types', authMiddleware, async (req, res) => await EmployeeFactory().linkDocumentTypes(req, res));
 employeeRoutes.get('/:id', authMiddleware, async (req, res) => await EmployeeFactory().find(req, res));
 employeeRoutes.put('/:id', authMiddleware, async (req, res) => await EmployeeFactory().update(req, res));
 employeeRoutes.delete('/:id', authMiddleware, async (req, res) => await EmployeeFactory().delete(req, res));

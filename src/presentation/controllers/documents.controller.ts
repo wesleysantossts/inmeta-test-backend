@@ -26,7 +26,7 @@ export class DocumentsController implements IDocumentsController {
     const {
       limit = 10,
       page = 1,
-      orderBy = 'createdAt',
+      orderBy = 'name',
       sortBy = 'asc',
       ...filters
     } = req.query;
@@ -43,7 +43,7 @@ export class DocumentsController implements IDocumentsController {
       ...req.query,
       page: Number(page),
       limit: Number(limit),
-      filters
+      ...(Object.keys(filters).length > 0 && { filters })
     }); 
     res.status(201).json({
       result: true,
@@ -117,7 +117,7 @@ export class DocumentsController implements IDocumentsController {
       page: Number(page),
       limit: Number(limit),
       filters: {
-        ...filters,
+        ...(Object.keys(filters).length > 0 && filters),
         status: 'PENDENTE',
       }
     }); 
