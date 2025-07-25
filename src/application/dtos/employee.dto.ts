@@ -8,7 +8,6 @@ export type EmployeeUpdateDTO = Partial<EmployeeBodyDTO> & { id: string };
 type AvailableQueryParamsOrderBy = 'name' | 'email';
 
 export type EmployeeLinkDocumentTypesParams = Pick<Employee, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'> & {
-  name?: string;
   documentTypeIds: string[];
 }
 export type EmployeeUnlinkDocumentTypesParams = {

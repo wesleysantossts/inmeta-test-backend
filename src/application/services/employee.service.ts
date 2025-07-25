@@ -65,29 +65,41 @@ export class EmployeeService implements IEmployeeService {
     const {
       id,
       documentTypeIds,
-      name = "",
       ...rest
     } = data;
     
     const employeeExists = await this.employeesRepository.find(id);
     if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
     
-    const invalidIds = []
-    let payload = []
+    
+    
+    const employeeRegisteredDocuments = (await this.documentsRepository.findAll({
+      filters: {
+        employeeId: id
+      }
+    })).datas;
+    
+    const registeredIds = [];
+    const invalidIds = [];
+    let payload = [];
+
     for (const docTypeId of documentTypeIds) {
       const docType = await this.documentTypesRepository.find(docTypeId);
       if (!docType) invalidIds.push(docTypeId);
+      if (employeeRegisteredDocuments.some(doc => doc.documentTypeId === docTypeId)) 
+        registeredIds.push(docTypeId);
 
       const obj = {
         employeeId: id,
         documentTypeId: docTypeId,
         status: "PENDENTE" as DocumentStatus,
-        name,
+        name: "",
         ...rest
       };
       payload.push(obj);
     }
     if (invalidIds.length > 0) throw new ApplicationError(`Documentos não encontrados pelos ids ${invalidIds.join(',')}`, 404)
+    if (registeredIds.length > 0) throw new ApplicationError(`Os seguintes tipos de documentos já foram vinculados para este colaborador. Ids: ${registeredIds.join(',')}`, 400)
 
     await this.documentsRepository.linkDocumentTypes(payload);
   }
