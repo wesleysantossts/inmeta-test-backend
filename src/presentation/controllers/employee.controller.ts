@@ -137,4 +137,17 @@ export class EmployeeController implements IEmployeeController {
       data: null
     })
   }
+
+  async findEmployeeDocumentStatus(req: Request, res: BaseResponse<any>): Promise<void> {
+    const { id } = req.params;
+    if (!id) throw new ApplicationError('O id é obrigatório', 400);
+
+
+    const data = await this.employeeService.findEmployeeDocumentStatus(id); 
+    res.status(200).json({
+      result: true,
+      response: 'Status do colaborador encontrado com sucesso',
+      data
+    })
+  }
 }

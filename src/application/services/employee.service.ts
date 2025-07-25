@@ -1,12 +1,7 @@
 import { ApplicationError } from '@/shared/errors/application.error';
-import { IAuthResponse, IAuthService, SignInParams } from '../dtos/auth.dto';
-import { IUsersRepository, UserBodyDTO } from '../dtos/user.dto';
-import { EncryptUtils } from '@/shared/utils/encrypt.util';
-import { env } from '@/infrastructure/config/environment';
-import jwt from 'jsonwebtoken';
-import { User } from '@/domain/entities/user.entity';
-import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUnlinkDocumentTypesParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository } from '../dtos/employee.dto';
+import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUnlinkDocumentTypesParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository, IFindEmployeeDocumentStatusResponse } from '../dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
+import { Document } from '@/domain/entities/document.entity';
 import { IBaseGetAll } from '../dtos/base.dto';
 import { DocumentsRepository } from '@/infrastructure/repositories/documents.repository';
 import { DocumentStatus } from '../dtos/document.dto';
@@ -121,5 +116,37 @@ export class EmployeeService implements IEmployeeService {
     if (invalidIds.length > 0) throw new ApplicationError(`Documentos não encontrados pelos ids ${invalidIds.join(',')}`, 404)
 
     await this.documentsRepository.unLinkDocumentTypes({ id, documentTypeIds });
+  }
+  
+  async findEmployeeDocumentStatus(id: string): Promise<IBaseGetAll<Document[] | IFindEmployeeDocumentStatusResponse>> {
+    const employeeDocuments = await this.documentsRepository.findAll({
+      filters: { employeeId: id },
+      include: {
+        documentType: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
+      }
+    });
+    if (!employeeDocuments.datas.length)
+      return employeeDocuments;
+
+    const normalizedResult: IFindEmployeeDocumentStatusResponse = {
+      employeeId: id,
+      documents: employeeDocuments.datas.map((doc: Record<string, any>) => ({
+        documentType: doc.documentType.name,
+        status: doc.status,
+        documentName: doc.name || '',
+        sentAt: doc.status === 'ENVIADO' ? doc.updatedAt : null,
+      }))
+    };
+
+    const result = {
+      ...employeeDocuments,
+      datas: normalizedResult,
+    }
+    return result;
   }
 }

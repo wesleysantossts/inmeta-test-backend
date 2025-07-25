@@ -1,6 +1,8 @@
 import { Employee } from '@/domain/entities/employee.entity';
+import { Document } from '@/domain/entities/document.entity';
 import { BaseResponse, IBaseGetAll, IBaseQueryParams } from './base.dto';
 import { Request } from 'express';
+import { DocumentStatus } from './document.dto';
 
 //#region TYPES
 export type EmployeeBodyDTO = Omit<EmployeeDTO, 'id' | 'createdAt' | 'updatedAt'>;
@@ -35,6 +37,15 @@ export interface EmployeeQueryParams extends Partial<IBaseQueryParams> {
     document?: string,
   };
 }
+export interface IFindEmployeeDocumentStatusResponse {
+  employeeId: string;
+  documents: {
+    documentType: any,
+    status: DocumentStatus,
+    documentName: string | null
+    sentAt: Date | null
+  }[]
+}
 export interface IEmployeesRepository {
   find: (id: string) => Promise<Employee | undefined>;
   findAll: (data: EmployeeQueryParams) => Promise<IBaseGetAll<Employee[]>>;
@@ -46,6 +57,7 @@ export interface IEmployeesRepository {
 }
 export interface IEmployeeService extends Omit<IEmployeesRepository, 'linkDocumentTypes'> {
   linkDocumentTypes: (data: EmployeeLinkDocumentTypesParams) => Promise<void>;
+  findEmployeeDocumentStatus: (id: string) => Promise<IBaseGetAll<Document[] | IFindEmployeeDocumentStatusResponse>>;
 }
 export interface IEmployeeController {
   find: (req: Request, res: BaseResponse<Employee | undefined>) => Promise<void>;

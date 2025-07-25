@@ -20,7 +20,7 @@ export type DocumentQueryParams = Partial<IBaseQueryParams> & {
   };
   include?: {
     employee?: boolean;
-    documentType?: boolean;
+    documentType?: boolean | Record<string, any>;
   }
 } 
 //#endregion
