@@ -12,10 +12,14 @@
     "test:coverage": "jest --coverage",
     "test:silent": "jest --silent",
     "test:clean": "jest --verbose=false --silent=false --onlyFailures",
+    "db:seed": "ts-node ./src/infrastructure/config/database/seed.ts",
     "db:migrate": "prisma migrate dev --schema=./src/infrastructure/config/database/schema.prisma",
     "db:deploy": "prisma migrate deploy --schema=./src/infrastructure/config/database/schema.prisma",
     "db:reset": "prisma migrate deploy --schema=./src/infrastructure/config/database/schema.prisma",
     "db:generate": "prisma generate --schema=./src/infrastructure/config/database/schema.prisma"
+  },
+  "prisma": {
+    "seed": "npm run db:seed"
   },
   "repository": {
     "type": "git",
