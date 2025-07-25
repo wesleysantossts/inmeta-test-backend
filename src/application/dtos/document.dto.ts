@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { Document } from '@/domain/entities/document.entity';
 import { BaseResponse, IBaseGetAll, IBaseQueryParams } from './base.dto';
+import { IEmployeeSendDocument } from './employee.dto';
 
 //#region TYPES
 export type DocumentStatus = 'ENVIADO' | 'PENDENTE' | 'APROVADO' | 'REJEITADO';

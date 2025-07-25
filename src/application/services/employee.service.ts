@@ -1,5 +1,5 @@
 import { ApplicationError } from '@/shared/errors/application.error';
-import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUnlinkDocumentTypesParams, EmployeeUpdateDTO, IEmployeeService, IEmployeesRepository, IFindEmployeeDocumentStatusResponse } from '../dtos/employee.dto';
+import { EmployeeBodyDTO, EmployeeLinkDocumentTypesParams, EmployeeQueryParams, EmployeeUnlinkDocumentTypesParams, EmployeeUpdateDTO, IEmployeeSendDocument, IEmployeeService, IEmployeesRepository, IFindEmployeeDocumentStatusResponse } from '../dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
 import { Document } from '@/domain/entities/document.entity';
 import { IBaseGetAll } from '../dtos/base.dto';
@@ -65,8 +65,6 @@ export class EmployeeService implements IEmployeeService {
     
     const employeeExists = await this.employeesRepository.find(id);
     if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
-    
-    
     
     const employeeRegisteredDocuments = (await this.documentsRepository.findAll({
       filters: {
@@ -147,6 +145,39 @@ export class EmployeeService implements IEmployeeService {
       ...employeeDocuments,
       datas: normalizedResult,
     }
+    return result;
+  }
+
+  async sendDocument(data: IEmployeeSendDocument): Promise<Document> {
+    const {
+      id,
+      name,
+      documentTypeId,
+    } = data;
+    
+    const employeeExists = await this.employeesRepository.find(id);
+    if (!employeeExists) throw new ApplicationError('Colaborador não encontrado pelo id', 404);
+    
+    const employeeRegisteredDocuments = (await this.documentsRepository.findAll({
+      filters: {
+        employeeId: id,
+      }
+    })).datas;
+    const foundDocument = employeeRegisteredDocuments.find(doc => doc.documentTypeId === documentTypeId);
+    if (!foundDocument) throw new ApplicationError('Documento não não vinculado ao colaborador', 404);
+    if (foundDocument.status !== 'PENDENTE') throw new ApplicationError('Documento já foi enviado', 404);
+
+    const payload = {
+      status: 'ENVIADO' as DocumentStatus,
+      name,
+      updatedAt: new Date,
+    }
+
+    const result = await this.documentsRepository.update({
+      ...foundDocument,
+      ...payload
+    });
+
     return result;
   }
 }

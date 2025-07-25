@@ -95,7 +95,7 @@ export class DocumentsRepository implements IDocumentsRepository {
     const { id: idFoundEmployee, ...restFoundDocument } = foundDocument;
     const { id, ...rest } = data;
     const updatedDocument = await this.prisma.document.update({
-      where: { id: id },
+      where: { id },
       data: {
         ...restFoundDocument,
         ...rest

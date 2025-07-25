@@ -46,6 +46,11 @@ export interface IFindEmployeeDocumentStatusResponse {
     sentAt: Date | null
   }[]
 }
+export interface IEmployeeSendDocument {
+  id: string;
+  name: string;
+  documentTypeId: string;
+}
 export interface IEmployeesRepository {
   find: (id: string) => Promise<Employee | undefined>;
   findAll: (data: EmployeeQueryParams) => Promise<IBaseGetAll<Employee[]>>;
@@ -58,6 +63,7 @@ export interface IEmployeesRepository {
 export interface IEmployeeService extends Omit<IEmployeesRepository, 'linkDocumentTypes'> {
   linkDocumentTypes: (data: EmployeeLinkDocumentTypesParams) => Promise<void>;
   findEmployeeDocumentStatus: (id: string) => Promise<IBaseGetAll<Document[] | IFindEmployeeDocumentStatusResponse>>;
+  sendDocument: (data: IEmployeeSendDocument) => Promise<Document>;
 }
 export interface IEmployeeController {
   find: (req: Request, res: BaseResponse<Employee | undefined>) => Promise<void>;
@@ -66,5 +72,6 @@ export interface IEmployeeController {
   update: (req: Request, res: BaseResponse<Employee>) => Promise<void>;
   delete: (req: Request, res: BaseResponse<any>) => Promise<void>;
   linkDocumentTypes: (req: Request, res: BaseResponse<any>) => Promise<void>;
+  sendDocument: (req: Request, res: BaseResponse<Document>) => Promise<void>;
 }
 //#endregion

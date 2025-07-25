@@ -13,6 +13,7 @@ employeeRoutes.put('/:id', authMiddleware, async (req, res) => await EmployeeFac
 employeeRoutes.delete('/:id', authMiddleware, async (req, res) => await EmployeeFactory().delete(req, res));
 
 employeeRoutes.get('/:id/document-status', authMiddleware, async (req, res) => await EmployeeFactory().findEmployeeDocumentStatus(req, res));
+employeeRoutes.put('/:id/documents', authMiddleware, async (req, res) => await EmployeeFactory().sendDocument(req, res));
 employeeRoutes.post('/:id/document-types', authMiddleware, async (req, res) => await EmployeeFactory().linkDocumentTypes(req, res));
 employeeRoutes.delete('/:id/document-types', authMiddleware, async (req, res) => await EmployeeFactory().unlinkDocumentTypes(req, res));
 

@@ -4,6 +4,7 @@ import { BaseResponse, IBaseGetAll } from '@/application/dtos/base.dto';
 import { ApplicationError } from '@/shared/errors/application.error';
 import { IEmployeeController, IEmployeeService } from '@/application/dtos/employee.dto';
 import { Employee } from '@/domain/entities/employee.entity';
+import { Document } from '@/domain/entities/document.entity';
 
 export class EmployeeController implements IEmployeeController {
   constructor(
@@ -147,6 +148,26 @@ export class EmployeeController implements IEmployeeController {
     res.status(200).json({
       result: true,
       response: 'Status do colaborador encontrado com sucesso',
+      data
+    })
+  }
+
+  async sendDocument(req: Request, res: BaseResponse<Document>): Promise<void> {
+    const { id: userId } = req.user!;
+    const { id } = req.params;
+    const { name, documentTypeId } = req.body;
+    if (!name || !documentTypeId) throw new ApplicationError('Campos id e documentTypeId são obrigatórios', 400);
+
+    const now = new Date();
+    const data = await this.employeeService.sendDocument({
+      ...req.body,
+      id,
+      updatedAt: now,
+      updatedBy: userId,
+    });
+    res.status(200).json({
+      result: true,
+      response: 'Documento do colaborador enviado com sucesso',
       data
     })
   }
