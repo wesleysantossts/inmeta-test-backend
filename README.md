@@ -20,7 +20,7 @@ Esta API foi desenvolvida como parte do desafio técnico para a vaga de Desenvol
 - 👤 **Gerenciamento de Colaboradores** - CRUD completo com validações
 - 🛡️ **Segurança** - Middleware de autenticação e autorização
 - 📚 **Documentação Swagger** - API totalmente documentada
-- 🧪 **Testes Automatizados** - Cobertura de testes unitários
+- 🧪 **Testes Automatizados** - Cobertura parcial de testes unitários
 - 🐳 **Containerização** - Estruturado em Docker
 
 ## 🛠️ Stack Tecnológica
@@ -88,7 +88,9 @@ npm run dev
 Após iniciar a aplicação, acesse a documentação interativa:
 
 **🌐 [http://localhost:8080/documentation](http://localhost:3000/documentation)**
-
+<br/><br/><br/>
+<img width="100%" height="auto" alt="image" src="https://github.com/user-attachments/assets/5571e7bc-3355-49d4-ab59-ca53563725aa" />
+<br/><br/>
 ### Exemplo de Uso
 
 ```bash
