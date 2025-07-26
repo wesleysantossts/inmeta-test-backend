@@ -16,9 +16,9 @@ Esta API foi desenvolvida como parte do desafio técnico para a vaga de Desenvol
 ### ✨ Principais Funcionalidades
 
 - 🔐 **Autenticação JWT** - Sistema completo de login e registro
-- 👤 **Gerenciamento de Colaboradores** - CRUD completo com validações
-- 👤 **Gerenciamento de Tipos de Documentos** - CRUD completo com validações
-- 👤 **Gerenciamento de Documentos** - CRUD completo com validações
+- 👤 **Gerenciamento de Colaboradores** - regras de negócio completas com validações
+- 👤 **Gerenciamento de Tipos de Documentos** - regras de negócio completas com validações
+- 👤 **Gerenciamento de Documentos** - regras de negócio completas com validações
 - 🛡️ **Segurança** - Middleware de autenticação e autorização
 - 📚 **Documentação Swagger** - API totalmente documentada
 - 🧪 **Testes Automatizados** - Cobertura parcial de testes unitários
