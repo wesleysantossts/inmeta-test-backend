@@ -1,4 +1,4 @@
-````markdown
+
 # 🚀 Desafio Técnico - Desenvolvedor Back-end
 
 > **API RESTful robusta e escalável desenvolvida para o processo seletivo da InMeta**
@@ -56,8 +56,10 @@ cp .env.example .env
 # 3. Inicie os containers
 docker compose up --build -d
 
+# 4. Aguarde alguns segundos enquanto o proxy é configurado e entre na rota da documentação
+🌐 http://localhost:8080/documentation
+
 ```
-````
 
 ### 🔧 Desenvolvimento Local
 
@@ -65,14 +67,20 @@ docker compose up --build -d
 # Instalar dependências
 npm install
 
+# Executar o banco de dados no Docker Compose
+docker compose up database -d
+
+# Alterar a variável de ambiente para identificar o container
+DATABASE_URL - alterar onde está "database" para "localhost" # Manter como "database" apenas se você for iniciar conforme a seção **Configuração com Docker**
+
 # Executar migrations
-npm run migrate:up
+npm run db:deploy
 
 # Modo desenvolvimento
-npm run dev
+npm run db:generate
 
 # Executar testes
-npm run test
+npm run dev
 ```
 
 ## 📖 Documentação da API
@@ -141,18 +149,6 @@ tests/
 - ✅ CORS configurado (para testes em ambiente de desenvolvimento)
 - ✅ Variáveis de ambiente protegidas
 
-## 🚀 Deploy
-
-O projeto está configurado para deploy fácil com Docker:
-
-```bash
-# Build da imagem de produção
-docker build -t inmeta-api .
-
-# Executar em produção
-docker run -p 3000:3000 inmeta-api
-```
-
 ## 👨‍💻 Desenvolvedor
 
 <div align="center">
@@ -180,4 +176,3 @@ docker run -p 3000:3000 inmeta-api
 <div align="center">
   <p>💡 <strong>Desenvolvido com dedicação para o desafio técnico da InMeta</strong></p>
 </div>
-```
