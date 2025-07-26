@@ -1,72 +1,183 @@
-# Desafio Técnico - Desenvolvedor Back-end
+````markdown
+# 🚀 Desafio Técnico - Desenvolvedor Back-end
 
-Desafio técnico para a vaga de Desenvolvedor Back-End na InMeta.
+> **API RESTful robusta e escalável desenvolvida para o processo seletivo da InMeta**
 
-## Como iniciar este projeto
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 
-### Docker
+## 📋 Sobre o Projeto
 
-<details>
-  <summary>Passo a Passo - Inicialização do banco com Docker</summary>
-  <ul>
-    <li>Clone o repositório na sua máquina.</li>
-    <li>Na raíz do projeto renomeie o arquivo <code>.env.example</code>, apagando a extensão <code>.example</code>.</li>
-    <li>Caso não tenha, instale o Docker de acordo com seu sistema operacional <a href='https://docs.docker.com/engine/install/ubuntu/' target='_blank'>clicando aqui</a> e seguindo os passos.</li>
-    <li>Depois instale o Docker Compose <a href='https://docs.docker.com/engine/install/ubuntu/' target='_blank'>clicando aqui</a> e seguindo os passos.</li>
-    <li>Em seguida, na pasta raíz do projeto, rode o comando <code>docker compose up --build -d</code>. Este comando iniciará o Docker Compose e fará o build das etapas necessárias para que a aplicação rode localmente.</li>
-  </ul>
-</details>
+Esta API foi desenvolvida como parte do desafio técnico para a vaga de Desenvolvedor Back-End na **InMeta**. O projeto demonstra minha experiência em desenvolvimento de APIs RESTful, arquitetura limpa, segurança e boas práticas de desenvolvimento.
 
-### API
+### ✨ Principais Funcionalidades
 
-Antes de iniciar, certifique-se de ter instalado o Docker e ter seguido todos os passos anteriores e deixar a aplicação rodando, porque o banco está persistindo nele.
+- 🔐 **Autenticação JWT** - Sistema completo de login e registro
+- 👤 **Gerenciamento de Colaboradores** - CRUD completo com validações
+- 🛡️ **Segurança** - Middleware de autenticação e autorização
+- 📚 **Documentação Swagger** - API totalmente documentada
+- 🧪 **Testes Automatizados** - Cobertura de testes unitários
+- 🐳 **Containerização** - Estruturado em Docker
 
-<details>
-  <summary>Passo a Passo - Iniciando da API</summary>
-  <ul>
-    <li>Na raíz do projeto, rode o comando <code>npm install</code> para instalar as dependências.</li>
-    <li>Depois, na linha de comando, digite o comando <code>npm run migrate:up</code> para gerar as migrations do banco.</li>
-    <li>Depois, digite o comando <code>npm run start:dev</code> para iniciar em ambiente de desenvolvimento a aplicação na rota <code>localhost:3000</code>(ou outra porta que você especificar no arquivo <code>.env</code>).</li>
-    <li>Por fim, para testar a API faça uma requisição do tipo <strong>POST</strong> para a rota <code>http://localhost:3000/api/auth/signup</code> (rota de criação de usuário), passando os seguintes parâmetros:</li>
-    <code>{ "name": "Wesley", "email": "teste@teste.com.br", "password": "123456" }</code>
-    <li>Mais detalhes sobre rotas de testes serão abordados na documentação (veja o tópico "Documentação").</li>
-  </ul>
-</details>
+## 🛠️ Stack Tecnológica
 
-### Testes
+| Tecnologia     | Versão | Descrição                      |
+| -------------- | ------ | ------------------------------ |
+| **Node.js**    | 20+    | Runtime JavaScript             |
+| **TypeScript** | 5.x    | Superset tipado do JavaScript  |
+| **Express**    | 5.x    | Framework web minimalista      |
+| **PostgreSQL** | 16+    | Banco de dados relacional      |
+| **Docker**     | 28+    | Containerização da aplicação   |
+| **JWT**        | -      | Autenticação baseada em tokens |
+| **Swagger**    | 3.0    | Documentação interativa da API |
 
-<details>
-  <summary>Passo a Passo - Iniciando os Testes</summary>
-  <ul>
-    <li>Após os passos anteriores, rode o comando <code>npm run test</code> para rodar os testes.</li>
-  </ul>
-</details>
+## 🚀 Início Rápido
 
-## Documentação
+### Pré-requisitos
 
-Após iniciar a aplicação, entre na rota `localhost:3000/documentation` para encontrar a documentação das rotas da API.
+- [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/) 20+ (para desenvolvimento local)
+- [Git](https://git-scm.com/)
 
-## Tecnologias utilizadas
+### 🐳 Configuração com Docker (Recomendado)
 
-- [x] Typescript
-- [x] Node.js
-- [x] Express
-- [x] Docker
-- [x] Postgres
-- [x] Swagger
-- [x] JWT
-- [x] Git
+```bash
+# 1. Clone o repositório
+git clone <url-do-repositorio>
+cd desafio-inmeta-backend
 
-## Desenvolvimento
+# 2. Configure as variáveis de ambiente
+cp .env.example .env
 
-<table>
-  <tr>
-    <td style='border=1px solid #ddd; align="center'>
-      <a href="https://github.com/wesleysantossts">
-        <img src="https://avatars.githubusercontent.com/u/56703526?v=4" width="100px" alt="Wesley Santos"/>
+# 3. Inicie os containers
+docker compose up --build -d
+
+```
+````
+
+### 🔧 Desenvolvimento Local
+
+```bash
+# Instalar dependências
+npm install
+
+# Executar migrations
+npm run migrate:up
+
+# Modo desenvolvimento
+npm run dev
+
+# Executar testes
+npm run test
+```
+
+## 📖 Documentação da API
+
+Após iniciar a aplicação, acesse a documentação interativa:
+
+**🌐 [http://localhost:8080/documentation](http://localhost:3000/documentation)**
+
+### Exemplo de Uso
+
+```bash
+# Criar novo usuário
+curl -X POST http://localhost:8080/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Wesley Santos",
+    "email": "teste@exemplo.com",
+    "password": "123456"
+  }'
+```
+
+## 🧪 Testes
+
+```bash
+# Executar todos os testes
+npm run test
+
+# Testes com coverage
+npm run test:coverage
+
+# Testes em modo watch
+npm run test:watch
+```
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── application/
+├───── dtos/
+├───── services/
+├── domain/
+├───── entities/
+├── infrastructure/
+├───── config/
+├───── repositories/
+├── main/
+├── presentation/
+├───── controllers/
+├───── middlewares/
+├───── routes/
+├── shared/
+├───── errors/
+├───── factories/
+├───── types/
+├───── utils/
+tests/
+```
+
+## 🔒 Segurança
+
+- ✅ Autenticação JWT
+- ✅ Validação de entrada de dados
+- ✅ Sanitização de queries via ORM
+- ✅ Rate limiting
+- ✅ CORS configurado (para testes em ambiente de desenvolvimento)
+- ✅ Variáveis de ambiente protegidas
+
+## 🚀 Deploy
+
+O projeto está configurado para deploy fácil com Docker:
+
+```bash
+# Build da imagem de produção
+docker build -t inmeta-api .
+
+# Executar em produção
+docker run -p 3000:3000 inmeta-api
+```
+
+## 👨‍💻 Desenvolvedor
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/wesleysantossts">
+          <img src="https://avatars.githubusercontent.com/u/56703526?v=4" width="120px" alt="Wesley Santos" style="border-radius: 50%"/>
+          <br/>
+          <sub><b>Wesley Santos</b></sub>
+          <br/>
+          <sub>Desenvolvedor Back-end</sub>
+        </a>
         <br/>
-        <sub>Wesley Santos</sub>
-      </a>
-    </td>
-  </tr>
-</table>
+        <a href="https://linkedin.com/in/wesleysantossts" target="_blank">
+          <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
+
+<div align="center">
+  <p>💡 <strong>Desenvolvido com dedicação para o desafio técnico da InMeta</strong></p>
+</div>
+```
