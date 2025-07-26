@@ -1,4 +1,3 @@
-
 # 🚀 Desafio Técnico - Desenvolvedor Back-end
 
 > **API RESTful desenvolvida para o processo seletivo da InMeta**
@@ -18,6 +17,8 @@ Esta API foi desenvolvida como parte do desafio técnico para a vaga de Desenvol
 
 - 🔐 **Autenticação JWT** - Sistema completo de login e registro
 - 👤 **Gerenciamento de Colaboradores** - CRUD completo com validações
+- 👤 **Gerenciamento de Tipos de Documentos** - CRUD completo com validações
+- 👤 **Gerenciamento de Documentos** - CRUD completo com validações
 - 🛡️ **Segurança** - Middleware de autenticação e autorização
 - 📚 **Documentação Swagger** - API totalmente documentada
 - 🧪 **Testes Automatizados** - Cobertura parcial de testes unitários
@@ -91,6 +92,7 @@ Após iniciar a aplicação, acesse a documentação interativa:
 <br/><br/><br/>
 <img width="100%" height="auto" alt="image" src="https://github.com/user-attachments/assets/5571e7bc-3355-49d4-ab59-ca53563725aa" />
 <br/><br/>
+
 ### Exemplo de Uso
 
 ```bash
@@ -139,7 +141,7 @@ src/
 ├───── factories/
 ├───── types/
 ├───── utils/
-tests/
+__tests__/
 ```
 
 ## 🔒 Segurança
